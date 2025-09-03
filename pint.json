@@ -1,0 +1,16 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "concat_space": {
+            "spacing": "one"
+        },
+        "class_attributes_separation": true,
+        "single_trait_insert_per_statement": true,
+        "no_unused_imports": true
+    },
+    "exclude": [
+        "vendor",
+        "node_modules",
+        "public/build"
+    ]
+}

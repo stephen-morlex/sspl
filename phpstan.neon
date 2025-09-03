@@ -1,0 +1,26 @@
+includes:
+  - phar://phpstan.phar/conf/bleedingEdge.neon
+parameters:
+  level: 8
+  paths:
+    - app
+  excludePaths:
+    - vendor
+    - node_modules
+  checkMissingTypehints: true
+  checkExplicitMixedMissingReturn: true
+  checkExplicitMixedMissingVar: true
+  checkDynamicProperties: true
+  checkExplicitMixedInUnknownGenericNew: true
+  checkThisOnly: false
+  checkUnionTypes: true
+  checkBenevolentUnionTypes: false
+  checkNullables: true
+  checkExplicitMixed: true
+  checkImplicitMixedInConfig: true
+  inferPrivatePropertyTypeFromConstructor: true
+  reportUnmatchedIgnoredErrors: false
+  treatPhpDocTypesAsCertain: true
+  universalObjectCratesClasses:
+    - Illuminate\Database\Eloquent\Model
+    - Illuminate\Support\Collection

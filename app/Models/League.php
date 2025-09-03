@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class League extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'country',
+        'season_start_year',
+        'season_end_year',
+        'logo_path',
+        'description',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'season_start_year' => 'integer',
+        'season_end_year' => 'integer',
+        'is_active' => 'boolean',
+    ];
+
+    public function fixtures()
+    {
+        return $this->hasMany(Fixture::class);
+    }
+
+    public function standings()
+    {
+        return $this->hasMany(Standing::class);
+    }
+}
