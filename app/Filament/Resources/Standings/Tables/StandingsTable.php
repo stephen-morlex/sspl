@@ -19,11 +19,11 @@ class StandingsTable
                     ->label('Position')
                     ->formatStateUsing(fn ($record) => $record->position),
                 TextColumn::make('team.name')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('league.name')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
+                    // ->sortable(),
+                // TextColumn::make('league.name')
+                //     ->searchable()
+                //     ->sortable(),
                 TextColumn::make('played')
                     ->label('P')
                     ->formatStateUsing(fn ($record) => $record->played),
@@ -59,7 +59,7 @@ class StandingsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ])
-            ->defaultSort('position', 'asc');
+            ])->defaultSort('points', 'desc')
+            ;
     }
 }

@@ -4,7 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Fixture;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.app')]
 class UpcomingFixtures extends Component
 {
     public function render()

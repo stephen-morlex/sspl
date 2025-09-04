@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Fixtures\Schemas;
 
+use App\Enums\FixtureStatus;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Textarea;
-use App\Models\Team;
-use App\Models\League;
 use Filament\Schemas\Schema;
 
 class FixtureForm
@@ -37,12 +36,8 @@ class FixtureForm
                     ->numeric()
                     ->minValue(0),
                 Select::make('status')
-                    ->options([
-                        'scheduled' => 'Scheduled',
-                        'live' => 'Live',
-                        'finished' => 'Finished',
-                        'postponed' => 'Postponed',
-                    ])
+                    ->options(collect(FixtureStatus::cases())->mapWithKeys(fn ($c) => [$c->value => ucfirst($c->value)])->toArray())
+                    ->native(false)
                     ->required(),
                 Textarea::make('match_summary')
                     ->columnSpanFull(),

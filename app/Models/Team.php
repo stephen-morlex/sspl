@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model
 {
@@ -23,22 +25,22 @@ class Team extends Model
         'founded_year' => 'integer',
     ];
 
-    public function players()
+    public function players(): HasMany
     {
         return $this->hasMany(Player::class);
     }
 
-    public function homeFixtures()
+    public function homeFixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'home_team_id');
     }
 
-    public function awayFixtures()
+    public function awayFixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'away_team_id');
     }
 
-    public function standings()
+    public function standings(): HasMany
     {
         return $this->hasMany(Standing::class);
     }

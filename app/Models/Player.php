@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Player extends Model
 {
@@ -32,13 +33,8 @@ class Player extends Model
         'shirt_number' => 'integer',
     ];
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
-    }
-
-    public function fixtures()
-    {
-        return $this->belongsToMany(Fixture::class);
     }
 }

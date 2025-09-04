@@ -20,7 +20,10 @@ class TeamForm
                 TextInput::make('short_name')
                     ->maxLength(10),
                 FileUpload::make('logo_path')
-                    ->image(),
+                    ->image()
+                    ->directory('teams')
+                    ->disk('public')
+                    ->visibility('public'),
                 TextInput::make('city')
                     ->required()
                     ->maxLength(255),

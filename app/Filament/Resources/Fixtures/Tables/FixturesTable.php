@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Fixtures\Tables;
 
+use App\Enums\FixtureStatus;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Actions\BulkActionGroup;
@@ -30,12 +31,7 @@ class FixturesTable
                 TextColumn::make('home_score'),
                 TextColumn::make('away_score'),
                 SelectColumn::make('status')
-                    ->options([
-                        'scheduled' => 'Scheduled',
-                        'live' => 'Live',
-                        'finished' => 'Finished',
-                        'postponed' => 'Postponed',
-                    ]),
+                    ->options(collect(FixtureStatus::cases())->mapWithKeys(fn ($c) => [$c->value => ucfirst($c->value)])->toArray()),
             ])
             ->filters([
                 //

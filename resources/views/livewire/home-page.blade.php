@@ -1,208 +1,190 @@
-<div class="max-w-7xl mx-auto px-4 py-6">
-    <!-- Loading Indicator -->
-    <div wire:loading class="flex justify-center items-center p-6">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-    </div>
-    
-    <!-- Hero Section -->
-    <div class="mb-8">
-        <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-xl shadow-lg p-8 text-white">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Football League Dashboard</h1>
-            <p class="text-xl opacity-90">Stay updated with live scores, standings, and upcoming matches</p>
-        </div>
-    </div>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Left Column -->
-        <div class="lg:col-span-2 space-y-6">
-            <!-- Live Matches Section -->
-            @if($liveFixtures->isNotEmpty())
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                            <span class="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></span>
-                            Live Matches
-                        </h2>
+<div class="py-4 lg:py-6">
+    <!-- Top rail: Hero + Right news column -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- HERO (left, spans 2) -->
+        <section class="lg:col-span-2">
+            <div class="relative overflow-hidden rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] bg-white">
+                <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(1200px_400px_at_-10%_-50%,#5a00a1_0%,#37003c_40%,transparent_60%)] opacity-30"></div>
+                <div class="relative p-6 md:p-8">
+                    <div class="inline-flex items-center gap-2 text-white bg-[#37003c] rounded-full px-3 h-7 text-[13px] mb-3">
+                        <span class="h-2 w-2 rounded-full bg-[#E11D48]"></span>
+                        Transfer Watch
                     </div>
-                    <div class="p-4 space-y-4">
-                        @foreach($liveFixtures as $fixture)
-                            <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-sm font-medium text-gray-600">{{ $fixture->league->name }}</span>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        LIVE
-                                    </span>
-                                </div>
-                                
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-12 h-12" />
-                                        <span class="font-medium text-gray-900">{{ $fixture->homeTeam->name }}</span>
-                                    </div>
-                                    
-                                    <div class="text-center">
-                                        <div class="text-2xl font-bold">
-                                            {{ $fixture->home_score }} - {{ $fixture->away_score }}
-                                        </div>
-                                        <div class="text-xs text-gray-500 mt-1">
-                                            {{ $fixture->kickoff_time->format('H:i') }}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="flex items-center space-x-3">
-                                        <span class="font-medium text-gray-900">{{ $fixture->awayTeam->name }}</span>
-                                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-12 h-12" />
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-2 text-center text-sm text-gray-500">
-                                    {{ $fixture->venue }}
-                                </div>
-                            </div>
-                        @endforeach
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#1b1b18] mb-2">VOTE: Who's the BEST signing of the summer transfer window?</h1>
+                    <p class="text-[#6b7280] mb-5">From Gyokeres to Mbeumo, take your pick from standout transfers this summer.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="inline-flex items-center h-10 px-4 rounded-full bg-[#37003c] text-white text-sm hover:opacity-90">Vote now</a>
+                        <a href="#" class="inline-flex items-center h-10 px-4 rounded-full border border-black/10 text-sm hover:bg-black/5">See all transfers</a>
                     </div>
-                </div>
-            @endif
-            
-            <!-- Upcoming Matches Section -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800">Upcoming Matches</h2>
-                </div>
-                <div class="p-4 space-y-4">
-                    @forelse($upcomingFixtures as $fixture)
-                        <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-medium text-gray-600">{{ $fixture->league->name }}</span>
-                                <span class="text-sm text-gray-500">{{ $fixture->kickoff_time->format('M j, Y') }}</span>
-                            </div>
-                            
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center space-x-3">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-12 h-12" />
-                                    <span class="font-medium text-gray-900">{{ $fixture->homeTeam->name }}</span>
-                                </div>
-                                
-                                <div class="text-center text-gray-500">
-                                    VS
-                                </div>
-                                
-                                <div class="flex items-center space-x-3">
-                                    <span class="font-medium text-gray-900">{{ $fixture->awayTeam->name }}</span>
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-12 h-12" />
-                                </div>
-                            </div>
-                            
-                            <div class="mt-2 text-center text-sm text-gray-500">
-                                {{ $fixture->kickoff_time->format('g:i A') }} at {{ $fixture->venue }}
-                            </div>
-                        </div>
-                    @empty
-                        <div class="text-center py-8">
-                            <p class="text-gray-500">No upcoming matches scheduled.</p>
-                        </div>
-                    @endforelse
                 </div>
             </div>
+        </section>
+
+        <!-- RIGHT NEWS RAIL -->
+        <aside class="space-y-4">
+            <div class="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] overflow-hidden">
+                <div class="px-4 py-3 border-b border-black/5">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-semibold">Premier League</h3>
+                        <a href="#" class="text-[13px] text-[#6b7280] hover:underline">View all matches</a>
+                    </div>
+                </div>
+                <ul class="divide-y divide-black/5">
+                    <li class="px-4 py-3 text-sm flex items-center justify-between">
+                        <span class="text-[#6b7280]">Sat 13 Sep</span>
+                        <span class="text-[#6b7280]">All times local</span>
+                    </li>
+                    @foreach($upcomingFixtures->take(5) as $f)
+                        <li class="px-4 py-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium">{{ $f->homeTeam->name }}</span>
+                                    <span class="text-[#6b7280]">vs</span>
+                                    <span class="font-medium">{{ $f->awayTeam->name }}</span>
+                                </div>
+                                <div class="text-sm text-[#6b7280]">{{ $f->kickoff_time->format('H:i') }}</div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Middle rail: Headlines left (live + news) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+            @if($liveFixtures->isNotEmpty())
+                <section class="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] overflow-hidden">
+                    <div class="px-5 py-4 border-b border-black/5 flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#E11D48] animate-pulse"></span>
+                        <h2 class="text-lg font-semibold">Live Matches</h2>
+                    </div>
+                    <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach($liveFixtures as $fixture)
+                            <article class="rounded-lg border border-black/5 p-4 hover:bg-black/2 transition-colors">
+                                <div class="flex items-center justify-between text-[13px] text-[#6b7280] mb-2">
+                                    <span>{{ $fixture->league->name }}</span>
+                                    <span class="inline-flex items-center px-2 h-5 rounded-full text-xs bg-[#fee2e2] text-[#991b1b]">LIVE</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+                                        <span class="font-medium">{{ $fixture->homeTeam->name }}</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-semibold">{{ $fixture->home_score }} - {{ $fixture->away_score }}</div>
+                                        <div class="text-[12px] text-[#6b7280] mt-1">{{ $fixture->kickoff_time->format('H:i') }}</div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="font-medium">{{ $fixture->awayTeam->name }}</span>
+                                        <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+                                    </div>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
+            <section class="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] overflow-hidden">
+                <div class="px-5 py-4 border-b border-black/5">
+                    <h2 class="text-lg font-semibold">Upcoming Matches</h2>
+                </div>
+                <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @forelse($upcomingFixtures as $fixture)
+                        <article class="rounded-lg border border-black/5 p-4 hover:bg-black/2 transition-colors">
+                            <div class="flex items-center justify-between mb-2 text-[13px] text-[#6b7280]">
+                                <span>{{ $fixture->league->name }}</span>
+                                <span>{{ $fixture->kickoff_time->format('M j, Y') }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+                                    <span class="font-medium">{{ $fixture->homeTeam->name }}</span>
+                                </div>
+                                <div class="text-[#6b7280]">VS</div>
+                                <div class="flex items-center gap-3">
+                                    <span class="font-medium">{{ $fixture->awayTeam->name }}</span>
+                                    <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-[13px] text-[#6b7280] text-center">{{ $fixture->kickoff_time->format('g:i A') }} at {{ $fixture->venue }}</div>
+                        </article>
+                    @empty
+                        <div class="text-center py-10 text-[#6b7280]">No upcoming matches scheduled.</div>
+                    @endforelse
+                </div>
+            </section>
         </div>
-        
-        <!-- Right Column -->
+
+        <!-- Right Column: Standings + Quick links -->
         <div class="space-y-6">
-            <!-- Top Standings Section -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800">Top Standings</h2>
+            <section class="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] overflow-hidden">
+                <div class="px-5 py-4 border-b border-black/5">
+                    <h2 class="text-lg font-semibold">Top Standings</h2>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full">
                         <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
-                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">P</th>
-                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Pts</th>
+                            <tr class="text-xs text-[#6b7280]">
+                                <th class="px-4 py-3 text-left">Pos</th>
+                                <th class="px-4 py-3 text-left">Team</th>
+                                <th class="px-4 py-3 text-center">P</th>
+                                <th class="px-4 py-3 text-center">Pts</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="divide-y divide-black/5">
                             @forelse($topStandings as $standing)
-                                <tr class="hover:bg-gray-50 {{ $standing->position <= 4 ? 'bg-blue-50' : '' }}">
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        <span class="{{ $standing->position <= 4 ? 'text-green-600' : 'text-gray-900' }}">
-                                            {{ $standing->position }}
-                                        </span>
+                                <tr class="{{ $standing->position <= 4 ? 'bg-blue-50' : 'bg-white' }}">
+                                    <td class="px-4 py-3 text-sm font-medium">
+                                        <span class="{{ $standing->position <= 4 ? 'text-green-600' : 'text-[#1b1b18]' }}">{{ $standing->position }}</span>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap">
+                                    <td class="px-4 py-3">
                                         <div class="flex items-center">
-                                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-6 h-6 mr-2" />
-                                            <div class="text-sm font-medium text-gray-900">{{ $standing->team->name }}</div>
+                                            <div class="w-6 h-6 rounded-lg bg-gray-200 mr-2"></div>
+                                            <span class="text-sm font-medium">{{ $standing->team->name }}</span>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-center text-gray-500">
-                                        {{ $standing->played }}
-                                    </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-center {{ $standing->position <= 4 ? 'text-green-600' : 'text-gray-900' }}">
-                                        {{ $standing->points }}
-                                    </td>
+                                    <td class="px-4 py-3 text-center text-sm text-[#6b7280]">{{ $standing->played }}</td>
+                                    <td class="px-4 py-3 text-center text-sm font-semibold {{ $standing->position <= 4 ? 'text-green-600' : '' }}">{{ $standing->points }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-4 py-3 text-center text-sm text-gray-500">
-                                        No standings available.
-                                    </td>
+                                    <td colspan="4" class="px-4 py-6 text-center text-sm text-[#6b7280]">No standings available.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200 text-center">
-                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                        View Full Standings →
+                <div class="px-4 py-3 bg-gray-50 border-t border-black/5 text-center text-sm">
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">View Full Standings →</a>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.06)] overflow-hidden">
+                <div class="px-5 py-4 border-b border-black/5">
+                    <h2 class="text-lg font-semibold">Quick Links</h2>
+                </div>
+                <div class="p-4 grid grid-cols-2 gap-3">
+                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="bg-blue-100 p-3 rounded-full mb-2"></div>
+                        <span class="text-sm font-medium">Teams</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="bg-green-100 p-3 rounded-full mb-2"></div>
+                        <span class="text-sm font-medium">Players</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="bg-purple-100 p-3 rounded-full mb-2"></div>
+                        <span class="text-sm font-medium">Standings</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="bg-yellow-100 p-3 rounded-full mb-2"></div>
+                        <span class="text-sm font-medium">Fixtures</span>
                     </a>
                 </div>
-            </div>
-            
-            <!-- Quick Links Section -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800">Quick Links</h2>
-                </div>
-                <div class="p-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                            <div class="bg-blue-100 p-3 rounded-full mb-2">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium text-gray-700">Teams</span>
-                        </a>
-                        <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                            <div class="bg-green-100 p-3 rounded-full mb-2">
-                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium text-gray-700">Players</span>
-                        </a>
-                        <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                            <div class="bg-purple-100 p-3 rounded-full mb-2">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium text-gray-700">Standings</span>
-                        </a>
-                        <a href="#" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                            <div class="bg-yellow-100 p-3 rounded-full mb-2">
-                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium text-gray-700">Fixtures</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
     </div>
 </div>

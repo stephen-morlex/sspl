@@ -131,6 +131,6 @@
 This schema supports all the required features of the football league application:
 - Matchday live scores and fixtures
 - Team and player profiles
-- Real-time notifications for user-selected clubs
 - Standings and league tables
+- Real-time notifications for user-selected clubs
 - Fantasy football module with team management and player selection

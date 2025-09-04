@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('standings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id');
-            $table->unsignedBigInteger('league_id');
+            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
+            $table->foreignId('league_id')->constrained('leagues')->cascadeOnDelete();
             $table->integer('position');
             $table->integer('played');
             $table->integer('won');
@@ -25,11 +25,7 @@ return new class extends Migration
             $table->integer('goal_difference');
             $table->integer('points');
             $table->timestamps();
-            
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
-            
-            // Ensure a team only has one standing per league
+
             $table->unique(['team_id', 'league_id']);
         });
     }

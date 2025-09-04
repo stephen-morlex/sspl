@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Standing extends Model
 {
@@ -14,7 +15,6 @@ class Standing extends Model
         'league_id',
     ];
 
-    // Remove all the statistics fields since they'll be calculated dynamically
     protected $appends = [
         'played',
         'won',
@@ -27,71 +27,60 @@ class Standing extends Model
         'position',
     ];
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }
 
-    public function league()
+    public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);
     }
 
-    // Accessor to calculate games played dynamically
-    public function getPlayedAttribute()
+    public function getPlayedAttribute(): int
     {
         return $this->calculatePlayed();
     }
 
-    // Accessor to calculate games won dynamically
-    public function getWonAttribute()
+    public function getWonAttribute(): int
     {
         return $this->calculateWins();
     }
 
-    // Accessor to calculate games drawn dynamically
-    public function getDrawnAttribute()
+    public function getDrawnAttribute(): int
     {
         return $this->calculateDraws();
     }
 
-    // Accessor to calculate games lost dynamically
-    public function getLostAttribute()
+    public function getLostAttribute(): int
     {
         return $this->calculateLosses();
     }
 
-    // Accessor to calculate goals for dynamically
-    public function getGoalsForAttribute()
+    public function getGoalsForAttribute(): int
     {
         return $this->calculateGoalsFor();
     }
 
-    // Accessor to calculate goals against dynamically
-    public function getGoalsAgainstAttribute()
+    public function getGoalsAgainstAttribute(): int
     {
         return $this->calculateGoalsAgainst();
     }
 
-    // Accessor to calculate goal difference dynamically
-    public function getGoalDifferenceAttribute()
+    public function getGoalDifferenceAttribute(): int
     {
         return $this->calculateGoalsFor() - $this->calculateGoalsAgainst();
     }
 
-    // Accessor to calculate points dynamically
-    public function getPointsAttribute()
+    public function getPointsAttribute(): int
     {
         return ($this->calculateWins() * 3) + $this->calculateDraws();
     }
 
-    // Accessor to calculate the position dynamically
-    public function getPositionAttribute()
+    public function getPositionAttribute(): int
     {
-        // Get all standings in this league ordered by points, goal difference, and goals for
         $standings = self::where('league_id', $this->league_id)->get();
 
-        // Sort standings by the standard football criteria
         $sortedStandings = $standings->sortByDesc(function ($standing) {
             return [
                 $standing->points,
@@ -100,22 +89,19 @@ class Standing extends Model
             ];
         })->values();
 
-        // Find the position of this standing
         foreach ($sortedStandings as $index => $standing) {
             if ($standing->id === $this->id) {
                 return $index + 1;
             }
         }
 
-        return count($sortedStandings) + 1;
+        return (int) (count($sortedStandings) + 1);
     }
 
-    // Calculate games played
-    private function calculatePlayed()
+    private function calculatePlayed(): int
     {
-        // Count finished fixtures where this team played (either home or away)
         return Fixture::where('league_id', $this->league_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->where(function ($query) {
                 $query->where('home_team_id', $this->team_id)
                     ->orWhere('away_team_id', $this->team_id);
@@ -123,99 +109,84 @@ class Standing extends Model
             ->count();
     }
 
-    // Calculate wins
-    private function calculateWins()
+    private function calculateWins(): int
     {
-        // Count wins as home team
         $homeWins = Fixture::where('league_id', $this->league_id)
             ->where('home_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('home_score', '>', 'away_score')
             ->count();
 
-        // Count wins as away team
         $awayWins = Fixture::where('league_id', $this->league_id)
             ->where('away_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('away_score', '>', 'home_score')
             ->count();
 
         return $homeWins + $awayWins;
     }
 
-    // Calculate draws
-    private function calculateDraws()
+    private function calculateDraws(): int
     {
-        // Count draws as home team
         $homeDraws = Fixture::where('league_id', $this->league_id)
             ->where('home_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('home_score', '=', 'away_score')
             ->count();
 
-        // Count draws as away team
         $awayDraws = Fixture::where('league_id', $this->league_id)
             ->where('away_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('away_score', '=', 'home_score')
             ->count();
 
         return $homeDraws + $awayDraws;
     }
 
-    // Calculate losses
-    private function calculateLosses()
+    private function calculateLosses(): int
     {
-        // Count losses as home team
         $homeLosses = Fixture::where('league_id', $this->league_id)
             ->where('home_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('home_score', '<', 'away_score')
             ->count();
 
-        // Count losses as away team
         $awayLosses = Fixture::where('league_id', $this->league_id)
             ->where('away_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->whereColumn('away_score', '<', 'home_score')
             ->count();
 
         return $homeLosses + $awayLosses;
     }
 
-    // Calculate goals for
-    private function calculateGoalsFor()
+    private function calculateGoalsFor(): int
     {
-        // Sum goals scored as home team
         $homeGoals = Fixture::where('league_id', $this->league_id)
             ->where('home_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->sum('home_score');
 
-        // Sum goals scored as away team
         $awayGoals = Fixture::where('league_id', $this->league_id)
             ->where('away_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->sum('away_score');
 
-        return $homeGoals + $awayGoals;
+        return (int) ($homeGoals + $awayGoals);
     }
 
-    // Calculate goals against
-    private function calculateGoalsAgainst()
+    private function calculateGoalsAgainst(): int
     {
-        // Sum goals conceded as home team
         $homeGoals = Fixture::where('league_id', $this->league_id)
             ->where('home_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->sum('away_score');
 
-        // Sum goals conceded as away team
         $awayGoals = Fixture::where('league_id', $this->league_id)
             ->where('away_team_id', $this->team_id)
-            ->where('status', 'finished')
+            ->whereIn('status', ['live', 'finished'])
             ->sum('home_score');
 
-        return $homeGoals + $awayGoals;
+        return (int) ($homeGoals + $awayGoals);
     }
 }

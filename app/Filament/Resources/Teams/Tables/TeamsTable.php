@@ -18,7 +18,7 @@ class TeamsTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('short_name'),
-                ImageColumn::make('logo_path'),
+                ImageColumn::make('logo_path')->disk('public'),
                 TextColumn::make('city'),
                 TextColumn::make('stadium'),
                 TextColumn::make('founded_year'),

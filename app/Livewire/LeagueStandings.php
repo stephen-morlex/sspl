@@ -5,29 +5,67 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Standing;
 use App\Models\League;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.app')]
 class LeagueStandings extends Component
 {
-    public $leagueId;
+    public $leagueId; // for route or external set
     public $leagues;
-    
-    public function mount()
+
+    public ?int $selectedLeague = null;
+    public ?int $selectedSeason = null;
+    public string $viewMode = 'full';
+
+    public $standings;
+    public $previousStandings = [];
+
+    public function mount($leagueId = null)
     {
-        $this->leagues = League::all();
-        $this->leagueId = $this->leagues->first()?->id;
+        $this->leagues = League::orderBy('name')->where('is_active', true)->get();
+        $this->selectedLeague = $leagueId ?? $this->leagueId ?? $this->leagues->first()?->id;
+        $this->selectedSeason = $this->selectedSeason ?? now()->year;
+        $this->loadStandings();
     }
-    
+
+    public function loadStandings(): void
+    {
+        // Store current standings as previous before updating
+        if ($this->standings && $this->standings->count() > 0) {
+            $this->previousStandings = $this->standings->keyBy('team_id')->toArray();
+        }
+
+        if ($this->selectedLeague) {
+            $this->standings = Standing::with(['team', 'league'])
+                ->where('league_id', $this->selectedLeague)
+                ->get()
+                ->sortByDesc(fn ($s) => [$s->points, $s->goal_difference, $s->goals_for])
+                ->values()
+                ->each(function ($s, $index) { 
+                    $s->computed_position = $index + 1;
+                    // Set previous position if available
+                    if (isset($this->previousStandings[$s->team_id])) {
+                        $s->previous_position = $this->previousStandings[$s->team_id]['computed_position'] ?? 
+                                              $this->previousStandings[$s->team_id]['position'] ?? 
+                                              null;
+                    } else {
+                        $s->previous_position = null;
+                    }
+                });
+        } else {
+            $this->standings = collect();
+        }
+    }
+
+    public function updatedSelectedLeague(): void
+    {
+        $this->loadStandings();
+    }
+
     public function render()
     {
-        $standings = collect();
-        
-        if ($this->leagueId) {
-            $standings = Standing::with('team')
-                ->where('league_id', $this->leagueId)
-                ->orderBy('position')
-                ->get();
-        }
-        
-        return view('livewire.league-standings', compact('standings'));
+        return view('livewire.league-standings', [
+            'standings' => $this->standings ?? collect(),
+        ]);
     }
 }

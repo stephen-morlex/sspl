@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('fantasy_teams', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->decimal('budget', 10, 2)->default(100.00);
             $table->decimal('total_points', 10, 2)->default(0.00);
-            $table->unsignedBigInteger('league_id')->nullable();
+            $table->foreignId('league_id')->nullable()->constrained('leagues')->nullOnDelete();
             $table->timestamps();
-            
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('league_id')->references('id')->on('leagues')->onDelete('set null');
         });
     }
 

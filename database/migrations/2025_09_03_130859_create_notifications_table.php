@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('fixture_id')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('fixture_id')->nullable()->constrained('fixtures')->cascadeOnDelete();
             $table->string('type'); // goal, yellow_card, red_card, match_start, match_end, etc.
             $table->text('message');
             $table->boolean('is_read')->default(false);
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
-            
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('fixture_id')->references('id')->on('fixtures')->onDelete('cascade');
-            
+
             $table->index('user_id');
             $table->index('is_read');
         });

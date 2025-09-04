@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\FixtureStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Fixture extends Model
 {
@@ -25,25 +27,21 @@ class Fixture extends Model
         'kickoff_time' => 'datetime',
         'home_score' => 'integer',
         'away_score' => 'integer',
+        'status' => FixtureStatus::class,
     ];
 
-    public function homeTeam()
+    public function homeTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'home_team_id');
     }
 
-    public function awayTeam()
+    public function awayTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'away_team_id');
     }
 
-    public function league()
+    public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);
-    }
-
-    public function players()
-    {
-        return $this->belongsToMany(Player::class);
     }
 }

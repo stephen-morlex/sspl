@@ -5,18 +5,21 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Fixture;
 use App\Models\Standing;
+use Illuminate\View\View;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.app')]
 class HomePage extends Component
 {
     public $upcomingFixtures;
     public $liveFixtures;
     public $topStandings;
-    
+
     public function mount()
     {
         $this->loadData();
     }
-    
+
     public function loadData()
     {
         // Load upcoming fixtures
@@ -25,14 +28,14 @@ class HomePage extends Component
             ->orderBy('kickoff_time')
             ->limit(5)
             ->get();
-            
+
         // Load live fixtures
         $this->liveFixtures = Fixture::with(['homeTeam', 'awayTeam', 'league'])
             ->where('status', 'live')
             ->orderBy('kickoff_time')
             ->limit(3)
             ->get();
-            
+
         // Load top standings
         $this->topStandings = Standing::with(['team', 'league'])
             ->whereHas('league', function ($query) {
@@ -43,7 +46,7 @@ class HomePage extends Component
             ->limit(5)
             ->get();
     }
-    
+
     public function placeholder()
     {
         return <<<'HTML'
@@ -52,8 +55,8 @@ class HomePage extends Component
         </div>
         HTML;
     }
-    
-    public function render()
+
+    public function render(): View
     {
         return view('livewire.home-page');
     }

@@ -6,7 +6,6 @@ Develop a web application with the following core functionalities:
 - Team and player profiles
 - Real-time notifications for user-selected clubs
 - AI-powered match summaries and stats
-- Fantasy football module with AI recommendations
 
 **Tech Stack Context** (adjust as needed):
 - Frontend: Laravel livewire with Tailwind css v4
@@ -23,12 +22,7 @@ Develop a web application with the following core functionalities:
 
 **Development Phases**:
 1. Set up project structure & tools (linters, tests, CI/CD)
-2. Implement database schema: teams, players, fixtures, users etc
-3. Create API endpoints for matches, standings, team/player info
-4. Build reactive frontend with live match updates
-5. Add personalization: club selection, notifications
-6. Integrate AI summarization for match events
-7. Develop fantasy module with AI-driven roster suggestions
-8. Write unit and integration tests for each feature
-9. Ensure accessibility and performance optimizations
-10. Write documentation: setup, architecture, endpoints, AI logic
+2. Build reactive frontend with live match updates
+3. Add personalization: club selection, notifications
+4. Ensure accessibility and performance optimizations
+5. Write documentation: setup, architecture, endpoints, AI logic
