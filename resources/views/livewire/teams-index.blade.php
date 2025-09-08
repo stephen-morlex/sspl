@@ -11,7 +11,7 @@
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($teams as $team)
-                    <a href="{{ route('teams.show', $team->id) }}" class="card card-bordered bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <a href="{{ route('teams.show', $team->id) }}" class="card card-bordered bg-base-100 shadow-md flex  hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <div class="card-body p-6">
                             <div class="flex items-center gap-4 mb-4">
                                 <div class="avatar">

@@ -10,6 +10,8 @@ use App\Livewire\LeagueStandings;
 use App\Livewire\WelcomePage;
 use App\Livewire\TeamsIndex;
 use App\Livewire\TeamShow;
+use App\Livewire\PlayersIndex;
+use App\Livewire\PlayerShow;
 
 Route::get('/we', WelcomePage::class);
 
@@ -20,10 +22,14 @@ Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->na
 // Livewire component routes for testing
 Route::get('/matches', MatchdayLive::class)->name('matches')->lazy();
 
-Route::get('/players/{id}', PlayerProfile::class)->name('players.show')->lazy();
+// Route::get('/players/{id}', PlayerProfile::class)->name('players.show')->lazy();
 
 Route::get('/standings', LeagueStandings::class)->name('standings')->lazy();
 
 // Team routes
 Route::get('/teams', TeamsIndex::class)->name('teams.index')->lazy();
 Route::get('/teams/{id}', TeamShow::class)->name('teams.show')->lazy();
+
+// Player routes
+Route::get('/players', PlayersIndex::class)->name('players.index')->lazy();
+Route::get('/players/{id}', PlayerShow::class)->name('players.show')->lazy();

@@ -1,6 +1,6 @@
 <div
     wire:poll.{{ $pollingInterval }}s="loadFixtures"
-    class="max-w-[900px] mx-auto px-4 py-6"
+    class="max-w-7xl mx-auto px-4 py-6"
    
 >
     <!-- Header & Filters -->
