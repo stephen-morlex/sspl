@@ -47,7 +47,7 @@
                                             <span class="font-medium">{{ $fixture->homeTeam->name }}</span>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-2xl font-semibold">{{ $fixture->home_score }} - {{ $fixture->away_score }}</div>
+                                            <div class=" font-semibold badge badge-lg">{{ $fixture->home_score }} - {{ $fixture->away_score }}</div>
                                             <div class="text-[12px] text-base-content/70 mt-1">{{ $fixture->kickoff_time->format('H:i') }}</div>
                                         </div>
                                         <div class="flex items-center gap-3">

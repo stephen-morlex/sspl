@@ -1,4 +1,4 @@
-<div class="max-w-[900px] mx-auto px-4 py-6" wire:poll.60s="loadStandings">
+<div class="max-w-7xl mx-auto px-4 py-6" wire:poll.60s="loadStandings">
     <!-- Header -->
     <h1 class="text-3xl font-extrabold text-center tracking-wide">STANDINGS</h1>
 
@@ -85,15 +85,15 @@
                               </div>
                               <div>
 
-                                <div class="text-sm  font-bolo">{{ $s->team->name }}</div>
+                                <div class="text-lg font-bold">{{ $s->team->name }}</div>
                               </div>
                             </div>
                         </td>
-                        <td class="text-center">{{ $s->played }}</td>
-                        <td class="text-center">{{ $s->won }}-{{ $s->drawn }}-{{ $s->lost }}</td>
-                        <td class="text-center">{{ $s->goals_for }}:{{ $s->goals_against }}</td>
-                        <td class="text-center {{ $s->goal_difference >= 0 ? 'text-green-600' : 'text-red-600' }}">{{ $s->goal_difference >= 0 ? '+' : '' }}{{ $s->goal_difference }}</td>
-                        <td class="text-center font-semibold">{{ $s->points }}</td>
+                        <td class="text-center ">{{ $s->played }}</td>
+                        <td class="text-center ">{{ $s->won }}-{{ $s->drawn }}-{{ $s->lost }}</td>
+                        <td class="text-center ">{{ $s->goals_for }}:{{ $s->goals_against }}</td>
+                        <td class="text-center  {{ $s->goal_difference >= 0 ? 'text-green-600' : 'text-red-600' }}">{{ $s->goal_difference >= 0 ? '+' : '' }}{{ $s->goal_difference }}</td>
+                        <td class="text-center  font-semibold">{{ $s->points }}</td>
                     </tr>
                 @empty
                     <tr>
