@@ -1,4 +1,4 @@
-<div class="max-w-[1000px] mx-auto px-4 py-8" wire:poll.60s="loadStandings">
+<div class="max-w-[900px] mx-auto px-4 py-6" wire:poll.60s="loadStandings">
     <!-- Header -->
     <h1 class="text-3xl font-extrabold text-center tracking-wide">STANDINGS</h1>
 
@@ -25,10 +25,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="w-16"></th>
+                    <th class="w-12"></th>
                     <th>Club</th>
                     <th class="text-center w-10">P</th>
-                    <th class="text-center w-16">W-D-L</th>
+                    <th class="text-center w-12">W-D-L</th>
                     <th class="text-center w-12">G</th>
                     <th class="text-center w-10">+/-</th>
                     <th class="text-center w-10">Pts</th>
@@ -42,11 +42,11 @@
                         $total = $standings->count();
                         $rowClass = '';
                         if ($pos <= 3) {
-                            $rowClass = 'bg-blue-100';
+                            $rowClass = 'border-l-4 border-success';
                         } elseif ($pos >= 4 && $pos <= 6) {
-                            $rowClass = 'bg-orange-100';
+                            $rowClass = 'border-l-4 border-warning';
                         } elseif ($pos > ($total - 3)) {
-                            $rowClass = 'bg-red-100';
+                            $rowClass = 'border-l-4 border-error';
                         }
 
                         // Determine position change indicator
@@ -79,7 +79,7 @@
                             <div class="flex items-center gap-3">
                             <div class="avatar">
                                 <div class="mask mask-squircle h-12 w-12">
-                                    <img src="{{ asset('storage/'.$s->team->logo_path) }}" class="w-8 h-8 object-contain" alt="{{ $s->team->name }} logo">
+                                    <img src="https://ssfa-services.com/images/teams/salam_fc.png" class="w-8 h-8 object-contain" alt="{{ $s->team->name }} logo">
 
                                 </div>
                               </div>
@@ -88,8 +88,6 @@
                                 <div class="text-sm  font-bolo">{{ $s->team->name }}</div>
                               </div>
                             </div>
-
-
                         </td>
                         <td class="text-center">{{ $s->played }}</td>
                         <td class="text-center">{{ $s->won }}-{{ $s->drawn }}-{{ $s->lost }}</td>
@@ -108,23 +106,16 @@
 
     <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[#6b7280]">
         <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-            UEFA Champions League
+            <span class="w-2 h-2 rounded-full bg-success"></span>
+           African Champions League
         </div>
         <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
-            UEFA Europa League
+            <span class="w-2 h-2 rounded-full bg-warning"></span>
+           CECAFE
         </div>
         <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            <span class="w-2 h-2 rounded-full bg-error"></span>
             Relegation
         </div>
-
-        <ul class="steps">
-            <li class="step step-primary">Register</li>
-            <li class="step step-primary">Choose plan</li>
-            <li class="step">Purchase</li>
-            <li class="step">Receive Product</li>
-          </ul>
     </div>
 </div>

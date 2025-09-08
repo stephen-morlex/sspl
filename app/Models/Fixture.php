@@ -6,6 +6,7 @@ use App\Enums\FixtureStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Fixture extends Model
 {
@@ -43,5 +44,21 @@ class Fixture extends Model
     public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);
+    }
+
+    /**
+     * Get the statistics for the match.
+     */
+    public function statistics(): HasMany
+    {
+        return $this->hasMany(Statistics::class, 'match_id');
+    }
+    
+    /**
+     * Get the fixture's name.
+     */
+    public function getNameAttribute(): string
+    {
+        return ($this->homeTeam->name ?? 'Home Team') . ' vs ' . ($this->awayTeam->name ?? 'Away Team');
     }
 }

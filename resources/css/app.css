@@ -1,4 +1,27 @@
-@import 'tailwindcss';
-@plugin "daisyui" {
-    themes: light --default, dark --prefersdark, acid;
-  }
+@import "tailwindcss";
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "daisyui" ;
+@plugin "daisyui/theme" {
+  name: "abyss";
+  default: true;
+  /* --color-primary: blue;
+  --color-secondary: teal; */
+}
+:root {
+  --my-color: #fff;
+  /* or any other variables/style */
+}
+[data-theme='dark'] {
+  --my-color: #000;
+}
+[data-theme='pink'] {
+  --my-color: #ffabc8;
+}
+body {
+  background-color: var(--my-color);
+}

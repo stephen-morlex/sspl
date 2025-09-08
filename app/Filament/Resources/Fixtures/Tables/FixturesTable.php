@@ -8,6 +8,7 @@ use Filament\Tables\Columns\SelectColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\Action;
 use Filament\Tables\Table;
 
 class FixturesTable
@@ -31,7 +32,7 @@ class FixturesTable
                 TextColumn::make('home_score'),
                 TextColumn::make('away_score'),
                 SelectColumn::make('status')
-                    ->options(collect(FixtureStatus::cases())->mapWithKeys(fn ($c) => [$c->value => ucfirst($c->value)])->toArray()),
+                    ->options(collect(FixtureStatus::cases())->mapWithKeys(fn ($c) => [$c->value => ucfirst((string) $c->value)])->toArray()),
             ])
             ->filters([
                 //

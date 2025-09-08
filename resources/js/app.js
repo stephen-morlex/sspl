@@ -1,2 +1,3 @@
 import './bootstrap';
-import './theme-toggle';
+import { themeChange } from 'theme-change';
+themeChange()
