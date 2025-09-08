@@ -50,8 +50,15 @@ class HomePage extends Component
     public function placeholder()
     {
         return <<<'HTML'
-        <div class="flex justify-center items-center p-6">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div class="max-w-[1000px] mx-auto px-4 py-6">
+            <div class="h-8 bg-base-300 rounded w-1/3 mb-6 animate-pulse"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="h-10 bg-base-300 rounded animate-pulse"></div>
+                <div class="h-10 bg-base-300 rounded animate-pulse"></div>
+            </div>
+            <div class="overflow-x-auto">
+                <div class="min-h-[400px] bg-base-200 rounded-lg animate-pulse"></div>
+            </div>
         </div>
         HTML;
     }

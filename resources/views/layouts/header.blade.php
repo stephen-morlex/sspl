@@ -14,7 +14,7 @@
                     <a href="{{ route('standings') }}" class="btn btn-ghost btn-sm">Table</a>
                     <a href="{{ route('teams.index') }}" class="btn btn-ghost btn-sm">Teams</a>
                     <a href="{{ route('players.index') }}" class="btn btn-ghost btn-sm">Players</a>
-                    <a href="#" class="btn btn-ghost btn-sm">Statistics</a>
+                    <a href="#" class="btn btn-ghost btn-sm">News</a>
                 </div>
 
                 <!-- Actions -->

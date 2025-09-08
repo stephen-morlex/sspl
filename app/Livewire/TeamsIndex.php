@@ -18,4 +18,9 @@ class TeamsIndex extends Component
             'teams' => $teams,
         ]);
     }
+    
+    public function placeholder()
+    {
+        return view('livewire.teams-index-placeholder');
+    }
 }

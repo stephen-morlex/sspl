@@ -50,4 +50,9 @@ class PlayersIndex extends Component
         $this->selectedPosition = '';
         $this->selectedNationality = '';
     }
+    
+    public function placeholder()
+    {
+        return view('livewire.players-index-placeholder');
+    }
 }
