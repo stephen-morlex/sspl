@@ -1,0 +1,47 @@
+/* News Ticker Animations */
+.news-ticker-enter-active,
+.news-ticker-leave-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.news-ticker-enter-from {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.news-ticker-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.news-ticker-leave-from {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.news-ticker-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Smooth scrolling for news items */
+.news-ticker-content {
+  scroll-behavior: smooth;
+}
+
+/* Pulse animation for the live indicator */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\League;
+use Illuminate\Support\Str;
 
 class LeagueSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class LeagueSeeder extends Seeder
     {
         $leagues = [
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Premier League',
                 'country' => 'England',
                 'season_start_year' => 2025,
@@ -22,6 +24,7 @@ class LeagueSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'La Liga',
                 'country' => 'Spain',
                 'season_start_year' => 2025,
@@ -30,6 +33,7 @@ class LeagueSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Bundesliga',
                 'country' => 'Germany',
                 'season_start_year' => 2025,
@@ -38,6 +42,7 @@ class LeagueSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Serie A',
                 'country' => 'Italy',
                 'season_start_year' => 2025,
@@ -46,6 +51,7 @@ class LeagueSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Ligue 1',
                 'country' => 'France',
                 'season_start_year' => 2025,

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('statistics', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('player_id')->constrained('players')->cascadeOnDelete();
-            $table->foreignId('match_id')->constrained('fixtures')->cascadeOnDelete();
+            $table->ulid('id')->primary();
+            $table->ulid('player_id');
+            $table->ulid('match_id');
             
             // Performance stats
             $table->unsignedSmallInteger('goals')->default(0);
@@ -44,6 +44,9 @@ return new class extends Migration
             
             // Index for efficient querying
             $table->index(['player_id', 'match_id']);
+            
+            $table->foreign('player_id')->references('id')->on('players')->cascadeOnDelete();
+            $table->foreign('match_id')->references('id')->on('fixtures')->cascadeOnDelete();
         });
     }
 

@@ -13,10 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fixtures', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('home_team_id')->constrained('teams')->cascadeOnDelete();
-            $table->foreignId('away_team_id')->constrained('teams')->cascadeOnDelete();
-            $table->foreignId('league_id')->constrained('leagues')->cascadeOnDelete();
+            $table->ulid('id')->primary();
+            $table->ulid('home_team_id');
+            $table->ulid('away_team_id');
+            $table->ulid('league_id');
             $table->dateTime('kickoff_time');
             $table->string('venue');
             $table->integer('home_score')->nullable();
@@ -24,6 +24,10 @@ return new class extends Migration
             $table->enum('status', FixtureStatus::values())->default(FixtureStatus::Scheduled->value);
             $table->text('match_summary')->nullable();
             $table->timestamps();
+            
+            $table->foreign('home_team_id')->references('id')->on('teams')->cascadeOnDelete();
+            $table->foreign('away_team_id')->references('id')->on('teams')->cascadeOnDelete();
+            $table->foreign('league_id')->references('id')->on('leagues')->cascadeOnDelete();
         });
     }
 

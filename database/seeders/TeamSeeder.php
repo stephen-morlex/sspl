@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Team;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TeamSeeder extends Seeder
 {
@@ -15,6 +15,7 @@ class TeamSeeder extends Seeder
     {
         $teams = [
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Manchester United',
                 'short_name' => 'MUN',
                 'city' => 'Manchester',
@@ -23,6 +24,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Manchester United Football Club is a professional football club based in Manchester, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Liverpool FC',
                 'short_name' => 'LIV',
                 'city' => 'Liverpool',
@@ -31,6 +33,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Liverpool Football Club is a professional football club based in Liverpool, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Arsenal FC',
                 'short_name' => 'ARS',
                 'city' => 'London',
@@ -39,6 +42,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Arsenal Football Club is a professional football club based in London, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Chelsea FC',
                 'short_name' => 'CHE',
                 'city' => 'London',
@@ -47,6 +51,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Chelsea Football Club is a professional football club based in London, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Manchester City',
                 'short_name' => 'MCI',
                 'city' => 'Manchester',
@@ -55,6 +60,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Manchester City Football Club is a professional football club based in Manchester, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Tottenham Hotspur',
                 'short_name' => 'TOT',
                 'city' => 'London',
@@ -63,6 +69,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Tottenham Hotspur Football Club is a professional football club based in London, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Newcastle United',
                 'short_name' => 'NEW',
                 'city' => 'Newcastle upon Tyne',
@@ -71,6 +78,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Newcastle United Football Club is a professional football club based in Newcastle upon Tyne, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Aston Villa',
                 'short_name' => 'AVL',
                 'city' => 'Birmingham',
@@ -79,6 +87,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Aston Villa Football Club is a professional football club based in Birmingham, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'West Ham United',
                 'short_name' => 'WHU',
                 'city' => 'London',
@@ -87,6 +96,7 @@ class TeamSeeder extends Seeder
                 'description' => 'West Ham United Football Club is a professional football club based in London, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Brighton & Hove Albion',
                 'short_name' => 'BHA',
                 'city' => 'Brighton and Hove',
@@ -95,6 +105,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Brighton & Hove Albion Football Club is a professional football club based in Brighton and Hove, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Wolverhampton Wanderers',
                 'short_name' => 'WOL',
                 'city' => 'Wolverhampton',
@@ -103,6 +114,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Wolverhampton Wanderers Football Club is a professional football club based in Wolverhampton, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Leicester City',
                 'short_name' => 'LEI',
                 'city' => 'Leicester',
@@ -111,6 +123,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Leicester City Football Club is a professional football club based in Leicester, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Everton FC',
                 'short_name' => 'EVE',
                 'city' => 'Liverpool',
@@ -119,6 +132,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Everton Football Club is a professional football club based in Liverpool, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Southampton FC',
                 'short_name' => 'SOU',
                 'city' => 'Southampton',
@@ -127,6 +141,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Southampton Football Club is a professional football club based in Southampton, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Crystal Palace',
                 'short_name' => 'CRY',
                 'city' => 'London',
@@ -135,6 +150,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Crystal Palace Football Club is a professional football club based in London, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Leeds United',
                 'short_name' => 'LEE',
                 'city' => 'Leeds',
@@ -143,6 +159,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Leeds United Football Club is a professional football club based in Leeds, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Burnley FC',
                 'short_name' => 'BUR',
                 'city' => 'Burnley',
@@ -151,6 +168,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Burnley Football Club is a professional football club based in Burnley, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Watford FC',
                 'short_name' => 'WAT',
                 'city' => 'Watford',
@@ -159,6 +177,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Watford Football Club is a professional football club based in Watford, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Norwich City',
                 'short_name' => 'NOR',
                 'city' => 'Norwich',
@@ -167,6 +186,7 @@ class TeamSeeder extends Seeder
                 'description' => 'Norwich City Football Club is a professional football club based in Norwich, England.',
             ],
             [
+                'id' => (string) Str::ulid(),
                 'name' => 'Sheffield United',
                 'short_name' => 'SHU',
                 'city' => 'Sheffield',

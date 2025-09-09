@@ -12,8 +12,10 @@ use App\Livewire\TeamsIndex;
 use App\Livewire\TeamShow;
 use App\Livewire\PlayersIndex;
 use App\Livewire\PlayerShow;
+use App\Livewire\NewsIndex;
+use App\Livewire\NewsShow;
+use App\Models\News;
 
-Route::get('/we', WelcomePage::class)->lazy();
 
 Route::get('/', HomePage::class)->name('home')->lazy();
 
@@ -21,10 +23,6 @@ Route::get('/dashboard', Dashboard::class)->middleware(['auth', 'verified'])->na
 
 // Livewire component routes for testing
 Route::get('/matches', MatchdayLive::class)->name('matches')->lazy();
-
-Route::get('/players/{id}', PlayerProfile::class)->name('players.profile.show')->lazy();
-
-Route::get('/teams/{id}/profile', TeamProfile::class)->name('teams.profile.show')->lazy();
 
 Route::get('/standings', LeagueStandings::class)->name('standings')->lazy();
 
@@ -35,3 +33,7 @@ Route::get('/teams/{id}', TeamShow::class)->name('teams.show')->lazy();
 // Player routes
 Route::get('/players', PlayersIndex::class)->name('players.index')->lazy();
 Route::get('/players/{id}', PlayerShow::class)->name('players.show')->lazy();
+
+// News routes
+Route::get('/news', NewsIndex::class)->name('news.index')->lazy();
+Route::get('/news/{news:slug}', NewsShow::class)->name('news.show')->lazy();

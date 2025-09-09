@@ -2,13 +2,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold text-center mb-8">Football Teams</h1>
         
-        @if($teams->isEmpty())
+        @if(isset($teams) && $teams->isEmpty())
             <div class="card bg-base-100 shadow-sm">
                 <div class="card-body text-center">
                     <p class="text-base-content/70">No teams found.</p>
                 </div>
             </div>
-        @else
+        @elseif(isset($teams))
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($teams as $team)
                     <a href="{{ route('teams.show', $team->id) }}" class="card card-bordered bg-base-100 shadow-md flex  hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Standing;
 use App\Models\Team;
 use App\Models\League;
+use Illuminate\Support\Str;
 
 class StandingSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class StandingSeeder extends Seeder
             // Create standings for each team in the league
             foreach ($teams->take(20) as $team) {
                 Standing::create([
+                    'id' => (string) Str::ulid(),
                     'team_id' => $team->id,
                     'league_id' => $league->id,
                     // All statistics are calculated dynamically from fixtures

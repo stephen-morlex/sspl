@@ -1,7 +1,7 @@
-<div class="py-6" data-theme="dark">
+<div class="py-6" >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Player Header with Image Background -->
-        <div class="card bg-gradient-to-r from-purple-900 to-indigo-900 image-full w-full shadow-xl mb-8">
+        <div class="card bg-gradient-to-r from-green to-success/50 image-full w-full shadow-xl mb-8">
             @if($player->photo_path)
                 <figure>
                     <img src="{{ asset('storage/'.$player->photo_path) }}" alt="{{ $player->first_name }} {{ $player->last_name }}" class="object-cover opacity-30" />
@@ -58,7 +58,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
-                                <span class="text-xl font-semibold">
+                                <span class="text-xl font-semibold ">
                                     @switch($player->position)
                                         @case('GK')
                                             Goalkeeper

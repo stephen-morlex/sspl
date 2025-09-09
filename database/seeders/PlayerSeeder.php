@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Player;
 use App\Models\Team;
+use Illuminate\Support\Str;
 
 class PlayerSeeder extends Seeder
 {
@@ -36,6 +37,7 @@ class PlayerSeeder extends Seeder
                 $lastName = $lastNames[array_rand($lastNames)];
                 
                 Player::create([
+                    'id' => (string) Str::ulid(),
                     'first_name' => $firstName,
                     'last_name' => $lastName,
                     'team_id' => $team->id,

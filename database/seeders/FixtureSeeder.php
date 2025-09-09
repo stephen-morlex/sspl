@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Fixture;
 use App\Models\Team;
 use App\Models\League;
+use Illuminate\Support\Str;
 
 class FixtureSeeder extends Seeder
 {
@@ -28,6 +29,7 @@ class FixtureSeeder extends Seeder
                 $statuses = ['scheduled', 'live', 'finished', 'postponed'];
                 
                 Fixture::create([
+                    'id' => (string) Str::ulid(),
                     'home_team_id' => $homeTeam->id,
                     'away_team_id' => $awayTeam->id,
                     'league_id' => $league->id,

@@ -7,19 +7,19 @@ use App\Models\Fixture;
 use App\Models\Team;
 use Livewire\Attributes\Layout;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 #[Layout('layouts.app')]
 class MatchdayLive extends Component
 {
     public $fixtures;
     public $liveFixtures;
+    public $groupedFixtures;
 
     public int $pollingInterval = 60;
 
     public ?int $selectedSeason = null; // e.g., 2025
     public ?int $selectedWeek = null;   // ISO week number as matchday
-    public ?int $selectedClub = null;   // team id
+    public string|int|null $selectedClub = null;   // team id
 
     public array $seasons = [];
     public array $weeks = [];
@@ -94,6 +94,41 @@ class MatchdayLive extends Component
 
         $this->liveFixtures = $all->where('status', 'live')->values();
         $this->fixtures = $all->whereIn('status', ['scheduled', 'postponed', 'finished'])->values();
+        
+        // Build grouped collection once and store it
+        $this->groupedFixtures = $this->groupFixtures($all);
+    }
+
+    private function groupFixtures($fixtures)
+    {
+        $grouped = collect();
+        
+        foreach ($fixtures as $fixture) {
+            $day = $fixture->kickoff_time->format('l');
+            $time = $fixture->kickoff_time->format('H:i');
+            
+            if (!$grouped->has($day)) {
+                $grouped->put($day, collect());
+            }
+            
+            if (!$grouped[$day]->has($time)) {
+                $grouped[$day]->put($time, collect());
+            }
+            
+            $grouped[$day][$time]->push($fixture);
+        }
+        
+        // Sort by day of week
+        $sortedDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        $sortedGrouped = collect();
+        
+        foreach ($sortedDays as $day) {
+            if ($grouped->has($day)) {
+                $sortedGrouped->put($day, $grouped[$day]);
+            }
+        }
+        
+        return $sortedGrouped;
     }
 
     public function placeholder()
@@ -114,28 +149,8 @@ class MatchdayLive extends Component
 
     public function render()
     {
-        // Build grouped collection locally to avoid Livewire serialization of nested Eloquent collections
-        $start = Carbon::now()->setISODate($this->selectedSeason ?? now()->year, $this->selectedWeek ?? now()->isoWeek(), 1)->startOfDay();
-        $end = (clone $start)->endOfWeek(Carbon::SUNDAY)->endOfDay();
-
-        $query = Fixture::with(['homeTeam', 'awayTeam', 'league'])
-            ->whereBetween('kickoff_time', [$start, $end]);
-
-        if ($this->selectedClub) {
-            $query->where(function ($q) {
-                $q->where('home_team_id', $this->selectedClub)
-                  ->orWhere('away_team_id', $this->selectedClub);
-            });
-        }
-
-        $all = $query->orderBy('kickoff_time')->get();
-
-        $grouped = $all->groupBy(fn ($f) => $f->kickoff_time->format('l'))
-            ->sortBy(fn ($c, $day) => $c->first()->kickoff_time->dayOfWeek)
-            ->map(fn ($dayFixtures) => $dayFixtures->groupBy(fn ($f) => $f->kickoff_time->format('H:i')));
-
         return view('livewire.matchday-live', [
-            'grouped' => $grouped,
+            'grouped' => $this->groupedFixtures ?? collect(),
         ]);
     }
 }

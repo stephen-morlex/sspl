@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('standings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
-            $table->foreignId('league_id')->constrained('leagues')->cascadeOnDelete();
+            $table->ulid('id')->primary();
+            $table->ulid('team_id');
+            $table->ulid('league_id');
             $table->integer('position');
             $table->integer('played');
             $table->integer('won');
@@ -27,6 +27,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['team_id', 'league_id']);
+            
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
+            $table->foreign('league_id')->references('id')->on('leagues')->cascadeOnDelete();
         });
     }
 

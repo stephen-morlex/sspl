@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
             $table->string('first_name');
             $table->string('last_name');
-            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
+            $table->ulid('team_id');
             $table->string('position');
             $table->integer('shirt_number');
             $table->date('date_of_birth')->nullable();
@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('photo_path')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
         });
     }
 
