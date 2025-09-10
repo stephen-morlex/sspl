@@ -1,7 +1,7 @@
 <div
     wire:poll.{{ $pollingInterval }}s="loadFixtures"
     class="max-w-7xl mx-auto px-4 py-6"
-   
+
 >
     <!-- Header & Filters -->
     <div class="mb-6">
@@ -55,10 +55,10 @@
     <!-- Live ticker strip -->
     <div class="mb-6">
         @if($liveFixtures->isNotEmpty())
-            <div class="card card-bordered bg-base-100 shadow-xl">
+            <div class="card card-bordered bg-accent text-accent-content">
                 <div class="card-body p-4">
                     <div class="flex items-center gap-3 text-sm overflow-x-auto no-scrollbar">
-                        <span class="inline-flex items-center gap-2 text-base-content/70 shrink-0">
+                        <span class="inline-flex items-center gap-2  shrink-0">
                             <span class="h-2 w-2 bg-error rounded-full animate-pulse"></span>
                             Live
                         </span>
@@ -68,7 +68,7 @@
                                     <span class="font-medium">{{ $f->homeTeam->short_name ?? $f->homeTeam->name }}</span>
                                     <span class="mx-1">{{ $f->home_score }} - {{ $f->away_score }}</span>
                                     <span class="font-medium">{{ $f->awayTeam->short_name ?? $f->awayTeam->name }}</span>
-                                    <span class="text-base-content/70 ml-2">{{ $f->league->name }}</span>
+                                    <span class=" ml-2">{{ $f->league->name }}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -80,9 +80,9 @@
 
     <!-- Grouped matches by day -->
     @forelse($grouped as $day => $times)
-        <div class="card card-bordered bg-base-100 shadow-xl mb-4">
+        <div class="card card-bordered  shadow mb-4">
             <div class="card-body p-0">
-                <div class="px-4 py-2 text-xs font-semibold tracking-wide bg-base-200 border-b border-base-content/10">{{ strtoupper($day) }}</div>
+                <div class="px-4 py-2 text-xs font-semibold tracking-wide bg-secondary border-b border-base-content/10">{{ strtoupper($day) }}</div>
                 @foreach($times as $time => $fixturesAtTime)
                     @foreach($fixturesAtTime as $fixture)
                         <div class="flex items-center justify-between px-4 h-14 border-b border-base-content/10 hover:bg-base-200 transition-colors">
@@ -121,7 +121,7 @@
             </div>
         </div>
     @empty
-        <div class="card card-bordered bg-base-100 shadow-xl">
+        <div class="card card-bordered bg-base-100 shadow">
             <div class="card-body text-center text-base-content/70">
                 No fixtures for this matchday.
             </div>

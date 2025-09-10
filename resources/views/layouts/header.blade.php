@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-40 bg-base-100/90 backdrop-blur border-b border-base-200 shadow-xl"
+<header class="sticky top-0 z-40 bg-neutral backdrop-blur border-b border-base-200 shadow-sm"
     x-data="{
         showNewsTicker: true,
         lastScrollTop: 0,
@@ -10,7 +10,7 @@
 
             window.addEventListener('scroll', () => {
                 const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-                
+
                 // Hide when scrolling down, show when scrolling up
                 if (currentScrollTop > this.lastScrollTop && currentScrollTop > 100) {
                     // Scrolling down - hide the news ticker
@@ -22,7 +22,7 @@
                     // At the top - always show
                     this.showNewsTicker = true;
                 }
-                
+
                 this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
             }, { passive: true });
         }
@@ -33,17 +33,17 @@
         <div class="flex-1">
             <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
                 <img class="h-12 w-12 avatar bg-white" src="/images/logo.png" alt="">
-                <span class="hidden text-white sm:block font-semibold">South Sudan Premier League</span>
+                <span class="hidden text-base-content sm:block font-bold text-xl">South Sudan Premier League</span>
             </a>
         </div>
 
         <!-- Primary Nav -->
         <div class="hidden xl:flex items-center gap-5 mx-6 text-sm">
-            <a href="{{ route('matches') }}" class="btn btn-ghost btn-sm">Matches</a>
-            <a href="{{ route('standings') }}" class="btn btn-ghost btn-sm">Table</a>
-            <a href="{{ route('teams.index') }}" class="btn btn-ghost btn-sm">Teams</a>
-            <a href="{{ route('players.index') }}" class="btn btn-ghost btn-sm">Players</a>
-            <a href="{{ route('news.index') }}" class="btn btn-ghost btn-sm">News</a>
+            <a href="{{ route('matches') }}" class="btn btn-ghost btn-md">Matches</a>
+            <a href="{{ route('standings') }}" class="btn btn-ghost btn-md">Table</a>
+            <a href="{{ route('teams.index') }}" class="btn btn-ghost btn-md">Teams</a>
+            <a href="{{ route('players.index') }}" class="btn btn-ghost btn-md">Players</a>
+            <a href="{{ route('news.index') }}" class="btn btn-ghost btn-md">News</a>
         </div>
 
         <!-- Actions -->
@@ -58,7 +58,7 @@
             </button>
 
             <!-- Theme Toggle Button -->
-            <button id="theme-toggle" class="btn btn-circle btn-ghost btn-sm" aria-label="Toggle theme">
+            <button id="theme-toggle" class="btn btn-circle btn-ghost btn-md" aria-label="Toggle theme">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -73,7 +73,7 @@
             <button data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></button>
 
             @auth
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-sm">Dashboard</a>
+                <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-md">Dashboard</a>
             @else
                 {{-- <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Sign in</a> --}}
             @endauth

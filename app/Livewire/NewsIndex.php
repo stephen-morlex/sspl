@@ -69,4 +69,21 @@ class NewsIndex extends Component
         $this->search = '';
         $this->resetPage();
     }
+
+    public function placeholder()
+    {
+        return <<<'HTML'
+        <div class="max-w-[1200px] mx-auto px-4 py-6">
+            <div class="h-8 bg-base-300 rounded w-1/4 mb-6 animate-pulse"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+                <div class="h-64 bg-base-300 rounded-lg animate-pulse"></div>
+            </div>
+        </div>
+        HTML;
+    }
 }

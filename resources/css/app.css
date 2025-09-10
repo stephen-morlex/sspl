@@ -6,22 +6,39 @@
 @source "../../storage/framework/views/*.php";
 
 @plugin "daisyui" ;
+
 @plugin "daisyui/theme" {
-  name: "abyss";
-  default: true;
-  /* --color-primary: blue;
-  --color-secondary: teal; */
-}
-:root {
-  --my-color: #fff;
-  /* or any other variables/style */
-}
-[data-theme='dark'] {
-  --my-color: #000;
-}
-[data-theme='pink'] {
-  --my-color: #ffabc8;
-}
-body {
-  background-color: var(--my-color);
-}
+    name: "cyberpunk";
+    default: true;
+    prefersdark: true;
+    color-scheme: "dark";
+    --color-base-100: oklch(1.0000 0.0000 89.88);
+    --color-base-200: oklch(96% 0.007 247.896);
+    --color-base-300: oklch(92% 0.013 255.508);
+    --color-base-content: oklch(0.0000 0.0000 0.0);
+    --color-primary: #3b82f6;
+    --color-primary-content: #ffffff;
+    --color-secondary: #f3f4f6;
+    --color-secondary-content: #4b5563;
+    --color-accent: #e0f2fe;
+    --color-accent-content:#1e3a8a;
+    --color-neutral: #ffffff;
+    --color-neutral-content:#333333;
+    --color-info: oklch(0.7080 0.1489 234.36);
+    --color-info-content:#ffffff;
+    --color-success: oklch(0.5868 0.1712 147.69);
+    --color-success-content: #ffffff;
+    --color-warning: oklch(0.8750 0.1791 92.68);
+    --color-warning-content: #ffffff;
+    --color-error: #ef4444;
+    --color-error-content:#ffffff;
+    --radius-selector: 2rem;
+    --radius-field: 0rem;
+    --radius-box: 0.25rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 0;
+    --noise: 0;
+  }
+

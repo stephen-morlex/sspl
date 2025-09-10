@@ -35,4 +35,20 @@ class NewsShow extends Component
     {
         return view('livewire.news-show');
     }
+
+    public function placeholder()
+    {
+        return <<<'HTML'
+        <div class="max-w-[800px] mx-auto px-4 py-6">
+            <div class="h-8 bg-base-300 rounded w-3/4 mb-4 animate-pulse"></div>
+            <div class="h-4 bg-base-300 rounded w-1/2 mb-6 animate-pulse"></div>
+            <div class="h-96 bg-base-300 rounded-lg mb-6 animate-pulse"></div>
+            <div class="space-y-4">
+                <div class="h-4 bg-base-300 rounded animate-pulse"></div>
+                <div class="h-4 bg-base-300 rounded animate-pulse"></div>
+                <div class="h-4 bg-base-300 rounded w-5/6 animate-pulse"></div>
+            </div>
+        </div>
+        HTML;
+    }
 }

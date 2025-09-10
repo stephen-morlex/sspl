@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto px-4 py-6" wire:poll.60s="loadStandings">
     <!-- Header -->
-    <h1 class="text-3xl font-extrabold text-center tracking-wide">STANDINGS</h1>
+    <h1 class="text-3xl font-extrabold text-center tracking-wide">TABLE STANDINGS</h1>
 
     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -85,7 +85,7 @@
                               </div>
                               <div>
 
-                                <div class="text-lg font-bold">{{ $s->team->name }}</div>
+                                <div class="text-lg">{{ $s->team->name }}</div>
                               </div>
                             </div>
                         </td>

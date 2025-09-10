@@ -1,7 +1,7 @@
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Team Header -->
-        <div class="card bg-gradient-to-r from-green to-success/50 text-white shadow-xl mb-8">
+        <div class="card bg-gradient-to-r from-primary to-accent text-white shadow mb-8">
             <div class="card-body">
                 <div class="flex flex-col md:flex-row items-center gap-6">
                     <div class="avatar">
@@ -34,7 +34,7 @@
             <!-- Left Column: Fixtures -->
             <div class="lg:col-span-2 space-y-6">
                 <!-- Upcoming Fixtures -->
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow">
                     <div class="card-body p-0">
                         <div class="px-6 py-4 border-b border-base-content/10">
                             <h2 class="card-title text-lg">Upcoming Fixtures</h2>
@@ -95,7 +95,7 @@
                 </div>
 
                 <!-- Past Fixtures -->
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow">
                     <div class="card-body p-0">
                         <div class="px-6 py-4 border-b border-base-content/10">
                             <h2 class="card-title text-lg">Past Fixtures</h2>
@@ -174,7 +174,7 @@
             <!-- Right Column: Players and Standing -->
             <div class="space-y-6">
                 <!-- League Standing -->
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow">
                     <div class="card-body p-0">
                         <div class="px-6 py-4 border-b border-base-content/10">
                             <h2 class="card-title text-lg">League Standing</h2>
@@ -234,7 +234,7 @@
                 </div>
 
                 <!-- Players -->
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow overflow-y-auto h-96">
                     <div class="card-body p-0">
                         <div class="px-6 py-4 border-b border-base-content/10">
                             <h2 class="card-title text-lg">Players</h2>

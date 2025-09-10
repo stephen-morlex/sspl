@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="cyberpunk">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +14,11 @@
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased text-base-content" data-theme="abyss">
-    <div class="min-h-screen flex flex-col bg-base-100">
+<body class="font-sans antialiased text-base-content" data-theme="cyberpunk">
+    <div class="min-h-screen flex flex-col bg-base-200 text-neutral-content">
         <!-- Global Top Bar -->
          @include('layouts.header')
-    
+
         <!-- Optional Page Heading Slot (kept for compatibility) -->
         @if (isset($header))
             <div class="bg-base-200 border-b border-base-300">
@@ -36,7 +36,7 @@
         </main>
     </div>
     @include('layouts.footer')
-    
+
     <!-- Theme Toggle Script using DaisyUI -->
     <script>
         document.getElementById('theme-toggle').addEventListener('click', function() {
