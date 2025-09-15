@@ -1,33 +1,4 @@
-<header class="sticky top-0 z-40 bg-neutral backdrop-blur border-b border-base-200 shadow-sm"
-    x-data="{
-        showNewsTicker: true,
-        lastScrollTop: 0,
-        init() {
-            // Only initialize scroll behavior on homepage
-            if (window.location.pathname !== '/') {
-                return;
-            }
-
-            window.addEventListener('scroll', () => {
-                const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-
-                // Hide when scrolling down, show when scrolling up
-                if (currentScrollTop > this.lastScrollTop && currentScrollTop > 100) {
-                    // Scrolling down - hide the news ticker
-                    this.showNewsTicker = false;
-                } else if (currentScrollTop < this.lastScrollTop) {
-                    // Scrolling up - show the news ticker
-                    this.showNewsTicker = true;
-                } else if (currentScrollTop <= 100) {
-                    // At the top - always show
-                    this.showNewsTicker = true;
-                }
-
-                this.lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
-            }, { passive: true });
-        }
-    }"
->
+<header class="sticky top-0 z-40 bg-neutral backdrop-blur border-b border-base-200 shadow-sm">
     <div class="navbar max-w-[1200px] mx-auto px-4 h-14">
         <!-- Brand -->
         <div class="flex-1">
@@ -72,18 +43,11 @@
             </button>
             <button data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></button>
 
-            @auth
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-md">Dashboard</a>
-            @else
-                {{-- <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Sign in</a> --}}
-            @endauth
         </div>
     </div>
 
-    <!-- News Ticker / Headlines - Only show on homepage and when not scrolled down -->
+    <!-- News Ticker / Headlines - Only show on homepage -->
     @if(request()->is('/'))
-        <template x-if="showNewsTicker">
-            <livewire:news-ticker />
-        </template>
+        <livewire:news-ticker />
     @endif
 </header>

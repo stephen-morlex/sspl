@@ -57,6 +57,22 @@ class Fixture extends Model
     }
     
     /**
+     * Get the match events for this fixture.
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(MatchEvent::class);
+    }
+    
+    /**
+     * Get the match stats for this fixture.
+     */
+    public function stats(): HasMany
+    {
+        return $this->hasMany(MatchStat::class);
+    }
+    
+    /**
      * Get the fixture's name.
      */
     public function getNameAttribute(): string

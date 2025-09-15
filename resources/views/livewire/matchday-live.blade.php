@@ -80,12 +80,12 @@
 
     <!-- Grouped matches by day -->
     @forelse($grouped as $day => $times)
-        <div class="card card-bordered  shadow mb-4">
+        <div class="card card-bordered  mb-4">
             <div class="card-body p-0">
                 <div class="px-4 py-2 text-xs font-semibold tracking-wide bg-secondary border-b border-base-content/10">{{ strtoupper($day) }}</div>
                 @foreach($times as $time => $fixturesAtTime)
                     @foreach($fixturesAtTime as $fixture)
-                        <div class="flex items-center justify-between px-4 h-14 border-b border-base-content/10 hover:bg-base-200 transition-colors">
+                        <div class="flex items-center bg-base-100 justify-between px-4 h-14 border-b border-base-content/10 hover:bg-base-200 transition-colors">
                             <div class="w-16 text-xs text-base-content/70">{{ $fixture->kickoff_time->format('H:i') }}</div>
                             <div class="flex-1 grid grid-cols-12 items-center gap-2">
                                 <div class="col-span-5 flex items-center gap-2">

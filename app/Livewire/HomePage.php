@@ -28,14 +28,14 @@ class HomePage extends Component
         $this->upcomingFixtures = Fixture::with(['homeTeam', 'awayTeam', 'league'])
             ->where('status', 'scheduled')
             ->orderBy('kickoff_time')
-            ->limit(5)
+            ->limit(8)
             ->get();
 
         // Load live fixtures
         $this->liveFixtures = Fixture::with(['homeTeam', 'awayTeam', 'league'])
             ->where('status', 'live')
             ->orderBy('kickoff_time')
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         // Load top standings with efficient statistics calculation
@@ -45,24 +45,24 @@ class HomePage extends Component
     private function getTopStandings()
     {
         // Get the Premier League
-        $premierLeague = League::where('name', 'Premier League')->first();
-        
+        $premierLeague = League::where('name', 'South Sudan Premier League')->first();
+
         if (!$premierLeague) {
             return collect();
         }
-        
+
         // Get standings for Premier League
         $standings = Standing::with(['team', 'league'])
             ->where('league_id', $premierLeague->id)
             ->get();
-            
+
         if ($standings->isEmpty()) {
             return collect();
         }
-        
+
         // Calculate team statistics efficiently using database queries
         $teamStats = $this->calculateTeamStatistics($premierLeague->id);
-        
+
         // Add calculated statistics to standings
         $standingsWithStats = $standings->map(function ($standing) use ($teamStats) {
             $teamId = $standing->team_id;
@@ -74,7 +74,7 @@ class HomePage extends Component
                 'goals_for' => 0,
                 'goals_against' => 0,
             ]);
-            
+
             // Set calculated values
             $standing->played = $stats['played'];
             $standing->won = $stats['won'];
@@ -84,7 +84,7 @@ class HomePage extends Component
             $standing->goals_against = $stats['goals_against'];
             $standing->goal_difference = $stats['goals_for'] - $stats['goals_against'];
             $standing->points = ($stats['won'] * 3) + $stats['drawn'];
-            
+
             return $standing;
         })
         ->sortByDesc(function ($s) {
@@ -92,7 +92,7 @@ class HomePage extends Component
         })
         ->take(5)
         ->values();
-        
+
         return $standingsWithStats;
     }
 
@@ -136,7 +136,7 @@ class HomePage extends Component
 
         // Combine home and away statistics
         $combinedStats = collect();
-        
+
         // Process home stats
         foreach ($homeStats as $stat) {
             $combinedStats->put($stat->team_id, [
@@ -148,7 +148,7 @@ class HomePage extends Component
                 'goals_against' => $stat->goals_against,
             ]);
         }
-        
+
         // Process away stats and combine with home stats
         foreach ($awayStats as $stat) {
             if ($combinedStats->has($stat->team_id)) {
@@ -172,7 +172,7 @@ class HomePage extends Component
                 ]);
             }
         }
-        
+
         return $combinedStats;
     }
 

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@fontsource-variable/josefin-sans";
 
 @source "../**/*.blade.php";
 @source "../**/*.js";

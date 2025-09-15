@@ -7,21 +7,17 @@
 
     <title>{{ config('app.name', 'Football League') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased text-base-content" data-theme="cyberpunk">
-    <div class="min-h-screen flex flex-col bg-base-200 text-neutral-content">
+    <div class="min-h-screen flex flex-col bg-secondary text-neutral-content">
         <!-- Global Top Bar -->
          @include('layouts.header')
 
         <!-- Optional Page Heading Slot (kept for compatibility) -->
         @if (isset($header))
-            <div class="bg-base-200 border-b border-base-300">
+            <div class="bg-secondary border-b border-base-300">
                 <div class="max-w-[1200px] mx-auto py-6 px-4">
                     {{ $header }}
                 </div>

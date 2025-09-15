@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Navigation\NavigationGroup;
 
 class NewsResource extends Resource
 {
@@ -46,5 +47,10 @@ class NewsResource extends Resource
             'create' => CreateNews::route('/create'),
             'edit' => EditNews::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Blog';
     }
 }

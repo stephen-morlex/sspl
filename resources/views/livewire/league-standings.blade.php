@@ -22,7 +22,7 @@
     </div>
 
     <div class="mt-6 overflow-x-auto">
-        <table class="table">
+        <table class="table bg-base-100">
             <thead>
                 <tr>
                     <th class="w-12"></th>

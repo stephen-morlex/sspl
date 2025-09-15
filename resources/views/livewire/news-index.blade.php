@@ -31,13 +31,13 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @forelse($news as $article)
-                        <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow duration-300 border-1">
-                            @if ($article->featured_image)
+                        <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow duration-300 ">
+                            {{-- @if ($article->featured_image) --}}
                                 <figure>
-                                    <img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}"
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtm56I_JUyVgpXtPiJQO5ntr-a5XzSbTkPWwzQck2HFI_uYAIovhN-lNXJRjX1T67ZYyQ&usqp=CAU" alt="{{ $article->title }}"
                                         class="w-full h-48 object-cover">
                                 </figure>
-                            @endif
+                            {{-- @endif --}}
                             <div class="card-body p-4">
                                 <div class="flex items-center text-sm text-base-content/70 mb-2">
                                     <span class="badge badge-ghost">{{ $article->category->name }}</span>

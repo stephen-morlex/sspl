@@ -16,6 +16,8 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
+        "@fontsource-variable/josefin-sans": "^5.2.7",
+        "@fontsource/open-sans": "^5.2.6",
         "theme-change": "^2.5.0"
     }
 }
