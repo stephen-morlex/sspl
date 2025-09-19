@@ -34,7 +34,7 @@
                         </div>
                         <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach ($liveFixtures as $fixture)
-                                <div class="card bg-base-100 hover:shadow-sm transition-all duration-300">
+                                <a href="{{ route('fixtures.show', $fixture->id) }}" class="card bg-base-100 hover:shadow-sm transition-all duration-300">
                                     <div class="card-body p-4">
                                         <div class="flex items-center justify-between text-[13px] text-base-content/70 mb-3">
                                             <span class="badge badge-sm badge-accent">{{ $fixture->league->name }}</span>
@@ -44,7 +44,11 @@
                                             <div class="flex items-center gap-3">
                                                 <div class="avatar placeholder">
                                                     <div class="mask mask-squircle h-12 w-12 bg-base-200">
-                                                        <img src="https://tmssl.akamaized.net//images/wappen/big/38102.png?lm=1568217564" alt="{{ $fixture->homeTeam->name }} logo" class="w-8 h-8 object-contain">
+                                                        @if($fixture->homeTeam->logo_path)
+                                                            <img src="{{ asset('storage/'.$fixture->homeTeam->logo_path) }}" alt="{{ $fixture->homeTeam->name }} logo" class="w-8 h-8 object-contain">
+                                                        @else
+                                                            <span class="text-xs">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <span class="font-medium">{{ $fixture->homeTeam->name }}</span>
@@ -63,13 +67,17 @@
                                                 <span class="font-medium">{{ $fixture->awayTeam->name }}</span>
                                                 <div class="avatar placeholder">
                                                     <div class="mask mask-squircle h-12 w-12 bg-base-200">
-                                                        <img src="https://tmssl.akamaized.net//images/wappen/big/38102.png?lm=1568217564" alt="{{ $fixture->awayTeam->name }} logo" class="w-8 h-8 object-contain">
+                                                        @if($fixture->awayTeam->logo_path)
+                                                            <img src="{{ asset('storage/'.$fixture->awayTeam->logo_path) }}" alt="{{ $fixture->awayTeam->name }} logo" class="w-8 h-8 object-contain">
+                                                        @else
+                                                            <span class="text-xs">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     </div>
@@ -84,7 +92,7 @@
                     </div>
                     <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         @forelse($upcomingFixtures as $fixture)
-                            <div class="card bg-base-100  hover:shadow-sm transition-all duration-300">
+                            <a href="{{ route('fixtures.show', $fixture->id) }}" class="card bg-base-100  hover:shadow-sm transition-all duration-300">
                                 <div class="card-body p-4">
                                     <div class="flex items-center justify-between mb-3 text-[13px] text-base-content/70">
                                         <span class="badge badge-sm badge-secondary">{{ $fixture->league->name }}</span>
@@ -121,7 +129,7 @@
                                         <span class="badge badge-outline badge-sm">{{ $fixture->kickoff_time->format('g:i A') }}</span> at {{ $fixture->venue }}
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @empty
                             <div class="text-center py-10 text-base-content/70 col-span-2">No upcoming matches scheduled.</div>
                         @endforelse

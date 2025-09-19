@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MatchEvents\Pages;
 
 use App\Filament\Resources\MatchEvents\MatchEventResource;
+use App\Jobs\DeleteStatsJob;
 use App\Jobs\UpdateStatsJob;
 use App\Models\MatchEvent;
 use Filament\Actions\DeleteAction;
@@ -16,7 +17,25 @@ class EditMatchEvent extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->action(function (MatchEvent $record) {
+                    // Dispatch the delete job to decrement stats
+                    DeleteStatsJob::dispatch($record);
+                    
+                    // Fire the delete event to broadcast the removal
+                    $event = new \App\Events\MatchEventDeleted($record);
+                    event($event);
+                    
+                    // Actually delete the record
+                    $record->delete();
+                    
+                    // Show success notification
+                    Notification::make()
+                        ->title('Match Event Deleted')
+                        ->body('The match event has been deleted and stats have been updated.')
+                        ->success()
+                        ->send();
+                }),
         ];
     }
 

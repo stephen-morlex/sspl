@@ -14,6 +14,7 @@ use App\Livewire\PlayersIndex;
 use App\Livewire\PlayerShow;
 use App\Livewire\NewsIndex;
 use App\Livewire\NewsShow;
+use App\Livewire\FixtureShow;
 use App\Models\News;
 
 
@@ -37,3 +38,6 @@ Route::get('/players/{id}', PlayerShow::class)->name('players.show')->lazy();
 // News routes
 Route::get('/news', NewsIndex::class)->name('news.index')->lazy();
 Route::get('/news/{news:slug}', NewsShow::class)->name('news.show')->lazy();
+
+// Fixture routes
+Route::get('/fixtures/{id}', FixtureShow::class)->name('fixtures.show')->lazy();

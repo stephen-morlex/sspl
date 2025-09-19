@@ -10,10 +10,18 @@ use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Team;
 use Closure;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -28,24 +36,23 @@ class MatchEventResource extends Resource
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return $schema->schema([
-                Forms\Components\Select::make('match_id')
-                    ->relationship('fixture', 'id')
+                Select::make('match_id')
+                    ->relationship('fixture', 'id', fn ($query) => $query->where('status', 'live'))
                     ->getOptionLabelFromRecordUsing(fn (Fixture $record) => $record->homeTeam->name . ' vs ' . $record->awayTeam->name)
                     ->searchable()
                     ->required()
                     ->live()
-                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                    ->afterStateUpdated(function (Set $set, Get $get) {
                         // Reset team and player when match changes
                         $set('team_id', null);
                         $set('player_id', null);
                     }),
 
-                Forms\Components\Select::make('team_id')
-                    ->relationship('team', 'name')
+                Select::make('team_id')
                     ->searchable()
                     ->live()
-                    ->afterStateUpdated(fn (Forms\Set $set) => $set('player_id', null))
-                    ->options(function (Forms\Get $get) {
+                    ->afterStateUpdated(fn (Set $set) => $set('player_id', null))
+                    ->options(function (Get $get) {
                         $matchId = $get('match_id');
                         if (!$matchId) {
                             return [];
@@ -62,33 +69,33 @@ class MatchEventResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('player_id')
-                    ->relationship('player', 'first_name')
-                    ->getOptionLabelFromRecordUsing(fn (Player $record) => $record->first_name . ' ' . $record->last_name)
                     ->searchable()
-                    ->options(function (Forms\Get $get) {
+                    ->options(function (Get $get) {
                         $teamId = $get('team_id');
                         if (!$teamId) {
                             return [];
                         }
 
                         return Player::where('team_id', $teamId)
-                            ->pluck('first_name', 'id')
-                            ->map(fn ($firstName, $id) => $firstName . ' ' . Player::find($id)->last_name);
+                            ->get()
+                            ->mapWithKeys(function ($player) {
+                                return [$player->id => $player->first_name . ' ' . $player->last_name];
+                            });
                     })
                     ->validationAttribute('Player')
-                    ->validate(function (Forms\Get $get) {
-                        $teamId = $get('team_id');
-                        $playerId = $get('player_id');
-                        
-                        if ($teamId && $playerId) {
-                            $player = Player::find($playerId);
-                            if ($player && $player->team_id != $teamId) {
-                                return 'The selected player does not belong to the selected team.';
+                    ->rules([
+                        fn (Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
+                            $teamId = $get('team_id');
+                            $playerId = $value;
+
+                            if ($teamId && $playerId) {
+                                $player = Player::find($playerId);
+                                if ($player && $player->team_id != $teamId) {
+                                    $fail('The selected player does not belong to the selected team.');
+                                }
                             }
-                        }
-                        
-                        return null;
-                    }),
+                        },
+                    ]),
 
                 Forms\Components\Select::make('event_type')
                     ->options([
@@ -132,7 +139,7 @@ class MatchEventResource extends Resource
                     ->valueLabel('Value')
                     ->columnSpan('full'),
 
-                Forms\Components\Grid::make(2)
+               Grid::make(2)
                     ->schema([
                         Forms\Components\TextInput::make('pitch_position.x')
                             ->label('Pitch Position X')
@@ -146,7 +153,7 @@ class MatchEventResource extends Resource
                             ->maxValue(100),
                     ]),
 
-                Forms\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
                         Forms\Components\TextInput::make('updated_score.home')
                             ->label('Home Score')
@@ -268,8 +275,8 @@ class MatchEventResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('reprocess')
+               EditAction::make(),
+               Action::make('reprocess')
                     ->label('Reprocess Stats')
                     ->icon('heroicon-o-arrow-path')
                     ->action(function (MatchEvent $record) {
@@ -277,7 +284,7 @@ class MatchEventResource extends Resource
                         Artisan::call('queue:work', [
                             '--once' => true,
                         ]);
-                        
+
                         Notification::make()
                             ->title('Stats Reprocessed')
                             ->success()
@@ -286,8 +293,8 @@ class MatchEventResource extends Resource
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+             BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
         ]);
     }

@@ -31,8 +31,10 @@ class FixtureForm
                     ->maxLength(255),
                 TextInput::make('home_score')
                     ->numeric()
+                    ->default(0)
                     ->minValue(0),
                 TextInput::make('away_score')
+                ->default(0)
                     ->numeric()
                     ->minValue(0),
                 Select::make('status')

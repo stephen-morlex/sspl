@@ -91,7 +91,13 @@
                                 <div class="col-span-5 flex items-center gap-2">
                                     <div class="avatar">
                                         <div class="w-8 rounded">
-                                            <img src="https://ssfa-services.com/images/teams/salam_fc.png" alt="{{ $fixture->homeTeam->name }}" />
+                                            @if($fixture->homeTeam->logo_path)
+                                                <img src="{{ asset('storage/'.$fixture->homeTeam->logo_path) }}" alt="{{ $fixture->homeTeam->name }}" />
+                                            @else
+                                                <div class="bg-base-300 w-full h-full flex items-center justify-center">
+                                                    <span class="text-xs">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <span class="truncate">{{ $fixture->homeTeam->name }}</span>
@@ -107,7 +113,13 @@
                                     <span class="truncate text-right">{{ $fixture->awayTeam->name }}</span>
                                     <div class="avatar">
                                         <div class="w-8 rounded">
-                                            <img src="https://ssfa-services.com/images/teams/salam_fc.png" alt="{{ $fixture->awayTeam->name }}" />
+                                            @if($fixture->awayTeam->logo_path)
+                                                <img src="{{ asset('storage/'.$fixture->awayTeam->logo_path) }}" alt="{{ $fixture->awayTeam->name }}" />
+                                            @else
+                                                <div class="bg-base-300 w-full h-full flex items-center justify-center">
+                                                    <span class="text-xs">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

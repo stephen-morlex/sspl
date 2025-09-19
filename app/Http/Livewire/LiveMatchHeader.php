@@ -12,6 +12,8 @@ class LiveMatchHeader extends Component
     public int $currentMinute = 0;
     public string $status = 'Scheduled';
 
+    protected $listeners = ['echo:match.{match.id},match.event.created' => 'eventCreated'];
+
     public function mount(Fixture $match)
     {
         $this->match = $match;
@@ -20,6 +22,9 @@ class LiveMatchHeader extends Component
 
     public function updateMatchStatus()
     {
+        // Refresh the match data to get latest scores
+        $this->match->refresh();
+        
         // Get the latest event to determine current minute and status
         $latestEvent = MatchEvent::where('match_id', $this->match->id)
             ->orderBy('minute', 'desc')
@@ -29,6 +34,12 @@ class LiveMatchHeader extends Component
             $this->currentMinute = $latestEvent->minute;
             $this->status = $latestEvent->period;
         }
+    }
+
+    public function eventCreated($eventData)
+    {
+        // Update the match status and scores when a new event is created
+        $this->updateMatchStatus();
     }
 
     public function render()

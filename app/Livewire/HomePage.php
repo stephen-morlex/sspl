@@ -17,6 +17,8 @@ class HomePage extends Component
     public $liveFixtures;
     public $topStandings;
 
+    protected $listeners = ['echo:match.*,MatchEventCreated' => 'refreshFixtures'];
+
     public function mount()
     {
         $this->loadData();
@@ -190,6 +192,12 @@ class HomePage extends Component
             </div>
         </div>
         HTML;
+    }
+
+    public function refreshFixtures($eventData)
+    {
+        // Reload data when a match event is created
+        $this->loadData();
     }
 
     public function render(): View

@@ -18,13 +18,36 @@
 
                         <div class="flex justify-between items-center py-2">
                             <div class="flex flex-col items-center w-1/3">
-                                <span class="font-medium text-center">{{ $match->homeTeam->name }}</span>
+                                <div class="avatar mb-2">
+                                    <div class="w-12 rounded-full">
+                                        @if($match->homeTeam->logo_path)
+                                            <img src="{{ asset('storage/'.$match->homeTeam->logo_path) }}" alt="{{ $match->homeTeam->name }}" />
+                                        @else
+                                            <div class="bg-base-300 w-full h-full flex items-center justify-center">
+                                                <span class="text-xs">{{ substr($match->homeTeam->name, 0, 3) }}</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="font-medium text-center text-sm">{{ $match->homeTeam->name }}</span>
                             </div>
                             <div class="text-center w-1/3">
-                                <span class="text-2xl font-bold">{{ $match->home_score ?? 0 }} - {{ $match->away_score ?? 0 }}</span>
+                                <span class="text-3xl font-bold text-error">{{ $match->home_score ?? 0 }} - {{ $match->away_score ?? 0 }}</span>
+                                <div class="text-xs text-base-content/70 mt-1">LIVE</div>
                             </div>
                             <div class="flex flex-col items-center w-1/3">
-                                <span class="font-medium text-center">{{ $match->awayTeam->name }}</span>
+                                <div class="avatar mb-2">
+                                    <div class="w-12 rounded-full">
+                                        @if($match->awayTeam->logo_path)
+                                            <img src="{{ asset('storage/'.$match->awayTeam->logo_path) }}" alt="{{ $match->awayTeam->name }}" />
+                                        @else
+                                            <div class="bg-base-300 w-full h-full flex items-center justify-center">
+                                                <span class="text-xs">{{ substr($match->awayTeam->name, 0, 3) }}</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="font-medium text-center text-sm">{{ $match->awayTeam->name }}</span>
                             </div>
                         </div>
 

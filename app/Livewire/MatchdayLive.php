@@ -25,6 +25,8 @@ class MatchdayLive extends Component
     public array $weeks = [];
     public array $clubs = [];
 
+    protected $listeners = ['echo:match.*,MatchEventCreated' => 'refreshFixtures'];
+
     public function mount(): void
     {
         $this->bootstrapFilters();
@@ -145,6 +147,12 @@ class MatchdayLive extends Component
             </div>
         </div>
         HTML;
+    }
+
+    public function refreshFixtures($eventData)
+    {
+        // Reload fixtures when a match event is created
+        $this->loadFixtures();
     }
 
     public function render()

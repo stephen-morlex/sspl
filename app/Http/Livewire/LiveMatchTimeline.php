@@ -11,7 +11,7 @@ class LiveMatchTimeline extends Component
     public Fixture $match;
     public $events;
 
-    protected $listeners = ['echo:match.{match.id},MatchEventCreated' => 'eventCreated'];
+    protected $listeners = ['echo:match.{match.id},match.event.created' => 'eventCreated'];
 
     public function mount(Fixture $match)
     {

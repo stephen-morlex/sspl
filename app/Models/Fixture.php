@@ -33,6 +33,11 @@ class Fixture extends Model
         'status' => FixtureStatus::class,
     ];
 
+    protected $attributes = [
+        'home_score' => 0,
+        'away_score' => 0,
+    ];
+
     public function homeTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'home_team_id');
@@ -78,5 +83,73 @@ class Fixture extends Model
     public function getNameAttribute(): string
     {
         return ($this->homeTeam->name ?? 'Home Team') . ' vs ' . ($this->awayTeam->name ?? 'Away Team');
+    }
+
+    /**
+     * Increment the home team's score.
+     */
+    public function incrementHomeScore(): void
+    {
+        $this->increment('home_score');
+    }
+
+    /**
+     * Increment the away team's score.
+     */
+    public function incrementAwayScore(): void
+    {
+        $this->increment('away_score');
+    }
+
+    /**
+     * Decrement the home team's score.
+     */
+    public function decrementHomeScore(): void
+    {
+        if ($this->home_score > 0) {
+            $this->decrement('home_score');
+        }
+    }
+
+    /**
+     * Decrement the away team's score.
+     */
+    public function decrementAwayScore(): void
+    {
+        if ($this->away_score > 0) {
+            $this->decrement('away_score');
+        }
+    }
+
+    /**
+     * Handle a goal event for the home team.
+     */
+    public function homeTeamGoal(): void
+    {
+        $this->incrementHomeScore();
+    }
+
+    /**
+     * Handle a goal event for the away team.
+     */
+    public function awayTeamGoal(): void
+    {
+        $this->incrementAwayScore();
+    }
+
+    /**
+     * Handle a disallowed goal for the home team.
+     */
+    public function disallowHomeTeamGoal(): void
+    {
+        $this->decrementHomeScore();
+    }
+
+    /**
+     * Handle a disallowed goal for the away team.
+     */
+    public function disallowAwayTeamGoal(): void
+    {
+        $this->decrementAwayScore();
     }
 }
