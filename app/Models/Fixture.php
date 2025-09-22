@@ -42,7 +42,7 @@ class Fixture extends Model
     {
         return $this->belongsTo(Team::class, 'home_team_id');
     }
- 
+
     public function awayTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'away_team_id');
@@ -60,7 +60,7 @@ class Fixture extends Model
     {
         return $this->hasMany(Statistics::class, 'match_id');
     }
-    
+
     /**
      * Get the match events for this fixture.
      */
@@ -68,7 +68,7 @@ class Fixture extends Model
     {
         return $this->hasMany(MatchEvent::class);
     }
-    
+
     /**
      * Get the match stats for this fixture.
      */
@@ -76,7 +76,7 @@ class Fixture extends Model
     {
         return $this->hasMany(MatchStat::class);
     }
-    
+
     /**
      * Get the fixture's name.
      */
@@ -151,5 +151,13 @@ class Fixture extends Model
     public function disallowAwayTeamGoal(): void
     {
         $this->decrementAwayScore();
+    }
+
+    /**
+     * Get the lineups for the fixture.
+     */
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(Lineup::class);
     }
 }

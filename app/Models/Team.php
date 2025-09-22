@@ -44,4 +44,9 @@ class Team extends BaseModel
     {
         return $this->hasMany(Standing::class);
     }
+
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(Lineup::class);
+    }
 }

@@ -37,11 +37,34 @@ class MatchEventResource extends Resource
     {
         return $schema->schema([
                 Select::make('match_id')
-                    ->relationship('fixture', 'id', fn ($query) => $query->where('status', 'live'))
-                    ->getOptionLabelFromRecordUsing(fn (Fixture $record) => $record->homeTeam->name . ' vs ' . $record->awayTeam->name)
+                    ->label('Match')
                     ->searchable()
                     ->required()
                     ->live()
+                    ->getOptionLabelFromRecordUsing(fn (Fixture $record) => $record->homeTeam->name . ' vs ' . $record->awayTeam->name)
+                    ->getSearchResultsUsing(function (string $search) {
+                        return Fixture::where('status', 'live')
+                            ->where(function ($query) use ($search) {
+                                $query->whereHas('homeTeam', fn ($q) => $q->where('name', 'like', "%{$search}%"))
+                                      ->orWhereHas('awayTeam', fn ($q) => $q->where('name', 'like', "%{$search}%"));
+                            })
+                            ->with(['homeTeam', 'awayTeam'])
+                            ->limit(50)
+                            ->get()
+                            ->mapWithKeys(fn ($fixture) => [
+                                $fixture->id => $fixture->homeTeam->name . ' vs ' . $fixture->awayTeam->name
+                            ])
+                            ->toArray();
+                    })
+                    ->options(function () {
+                        return Fixture::where('status', 'live')
+                            ->with(['homeTeam', 'awayTeam'])
+                            ->get()
+                            ->mapWithKeys(fn ($fixture) => [
+                                $fixture->id => $fixture->homeTeam->name . ' vs ' . $fixture->awayTeam->name
+                            ])
+                            ->toArray();
+                    })
                     ->afterStateUpdated(function (Set $set, Get $get) {
                         // Reset team and player when match changes
                         $set('team_id', null);

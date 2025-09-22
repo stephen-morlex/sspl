@@ -54,4 +54,12 @@ class Player extends BaseModel
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    /**
+     * Get the lineups for the player.
+     */
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(Lineup::class);
+    }
 }

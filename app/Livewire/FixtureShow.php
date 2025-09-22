@@ -27,14 +27,6 @@ class FixtureShow extends Component
         $this->loadData();
     }
 
-    protected function getListeners(): array
-    {
-        return [
-            "echo:match.{$this->fixtureId},match.event.created" => 'eventCreated',
-            "echo:match.{$this->fixtureId},match.event.deleted" => 'eventDeleted',
-        ];
-    }
-
     public function loadData()
     {
         // Load match events
@@ -48,7 +40,7 @@ class FixtureShow extends Component
         $homeEvents = collect();
         $awayEvents = collect();
         $unassignedEvents = collect();
-        
+
         foreach ($allEvents as $event) {
             if ($event->team_id == $this->fixture->home_team_id) {
                 $homeEvents->push($event);
@@ -97,32 +89,6 @@ class FixtureShow extends Component
             ->get();
     }
 
-    public function eventCreated($eventData)
-    {
-        // Refresh all data when a new event is created
-        $this->fixture->refresh();
-        $this->loadData();
-        
-        // Dispatch browser event to show notification
-        $this->dispatch('notify', [
-            'message' => 'Match updated with new event!',
-            'type' => 'success'
-        ]);
-    }
-
-    public function eventDeleted($eventData)
-    {
-        // Refresh all data when an event is deleted
-        $this->fixture->refresh();
-        $this->loadData();
-        
-        // Dispatch browser event to show notification
-        $this->dispatch('notify', [
-            'message' => 'Match event removed!',
-            'type' => 'info'
-        ]);
-    }
-
     // Add polling to ensure updates are visible
     public function refreshFixture()
     {
@@ -132,9 +98,9 @@ class FixtureShow extends Component
     public function placeholder()
     {
         return <<<'HTML'
-        <div class="max-w-4xl mx-auto px-4 py-6">
-            <div class="h-8 bg-base-300 rounded w-1/3 mb-6 animate-pulse"></div>
-            <div class="h-64 bg-base-200 rounded-lg animate-pulse"></div>
+        <div class="max-w-4xl px-4 py-6 mx-auto">
+            <div class="w-1/3 h-8 mb-6 rounded bg-base-300 animate-pulse"></div>
+            <div class="h-64 rounded-lg bg-base-200 animate-pulse"></div>
         </div>
         HTML;
     }

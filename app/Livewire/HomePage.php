@@ -38,7 +38,8 @@ class HomePage extends Component
         // Load live fixtures
         $this->liveFixtures = Fixture::with(['homeTeam', 'awayTeam', 'league'])
             ->where('status', 'live')
-            ->orderBy('kickoff_time')
+            // ->orderBy('kickoff_time')
+            ->latest()
             ->limit(4)
             ->get();
 
