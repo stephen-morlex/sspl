@@ -1,19 +1,19 @@
 <div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-base-content">Latest News</h1>
             <p class="mt-2 text-base-content/70">Stay up to date with the latest football news and updates.</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
             <div class="lg:col-span-3">
-                <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-col gap-4 mb-6 sm:flex-row">
                     <div class="flex-1">
                         <input wire:model.live.debounce.300ms="search" type="text" placeholder="Search news..."
-                            class="w-full input input-bordered">
+                            class="w-full input input-bordered input-neutral">
                     </div>
                     <div>
-                        <select wire:model.live="selectedCategory" class="w-full select select-bordered">
+                        <select wire:model.live="selectedCategory" class="w-full select select-bordered select-neutral">
                             <option value="">All Categories</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -22,29 +22,29 @@
                     </div>
                     @if ($selectedCategory || $search)
                         <div>
-                            <button wire:click="clearFilters" class="btn btn-outline">
+                            <button wire:click="clearFilters" class="w-full btn btn-neutral">
                                 Clear
                             </button>
                         </div>
                     @endif
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     @forelse($news as $article)
-                        <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow duration-300 ">
+                        <div class="transition-shadow duration-300 card bg-base-100 hover:shadow-md ">
                             {{-- @if ($article->featured_image) --}}
-                                <figure>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtm56I_JUyVgpXtPiJQO5ntr-a5XzSbTkPWwzQck2HFI_uYAIovhN-lNXJRjX1T67ZYyQ&usqp=CAU" alt="{{ $article->title }}"
-                                        class="w-full h-48 object-cover">
-                                </figure>
+                            <figure>
+                                <img src="{{ asset('storage/' . $article->featured_image) }}"
+                                    alt="{{ $article->title }}" class="object-cover w-full h-48">
+                            </figure>
                             {{-- @endif --}}
-                            <div class="card-body p-4">
-                                <div class="flex items-center text-sm text-base-content/70 mb-2">
+                            <div class="p-4 card-body">
+                                <div class="flex items-center mb-2 text-sm text-base-content/70">
                                     <span class="badge badge-ghost">{{ $article->category->name }}</span>
                                     <span class="mx-2">•</span>
                                     <span>{{ $article->published_at->format('M d, Y') }}</span>
                                 </div>
-                                <h2 class="card-title text-lg">
+                                <h2 class="text-lg card-title">
                                     <a href="{{ route('news.show', $article) }}" class="hover:text-primary">
                                         {{ $article->title }}
                                     </a>
@@ -52,7 +52,7 @@
                                 @if ($article->excerpt)
                                     <p class="text-base-content/80">{{ $article->excerpt }}</p>
                                 @endif
-                                <div class="card-actions justify-start mt-3">
+                                <div class="justify-start mt-3 card-actions">
                                     @foreach ($article->tags->take(3) as $tag)
                                         <div class="badge badge-outline badge-sm">{{ $tag->name }}</div>
                                     @endforeach
@@ -61,7 +61,7 @@
                         </div>
                     @empty
                         <div class="col-span-full">
-                            <div class="bg-base-100 rounded-lg shadow-md p-8 text-center">
+                            <div class="p-8 text-center rounded-lg shadow-md bg-base-100">
                                 <p class="text-base-content/70">No news articles found.</p>
                             </div>
                         </div>
@@ -74,8 +74,8 @@
             </div>
 
             <div class="lg:col-span-1">
-                <div class="bg-base-100 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-base-content mb-4">Categories</h3>
+                <div class="p-6 rounded-lg bg-base-100">
+                    <h3 class="mb-4 text-lg font-bold text-base-content">Categories</h3>
                     <ul class="space-y-2">
                         @foreach ($categories as $category)
                             <li>

@@ -37,8 +37,12 @@ class NewsForm
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('featured_image')
+                    ->disk('public') // Store in storage/app/public
+                    ->directory('news') // Inside the news folder
+                    ->visibility('public')
                     ->image()
-                    ->directory('news'),
+                    ->imagePreviewHeight('150')
+                    ->label('Featured Image'),
                 Toggle::make('is_published')
                     ->default(false),
                 DateTimePicker::make('published_at'),

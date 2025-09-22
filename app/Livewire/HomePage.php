@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Fixture;
 use App\Models\Standing;
 use App\Models\League;
+use App\Models\News; // Add this at the top with other imports
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -16,6 +17,7 @@ class HomePage extends Component
     public $upcomingFixtures;
     public $liveFixtures;
     public $topStandings;
+    public $featureNews; // Add this property
 
     protected $listeners = ['echo:match.*,MatchEventCreated' => 'refreshFixtures'];
 
@@ -42,6 +44,9 @@ class HomePage extends Component
 
         // Load top standings with efficient statistics calculation
         $this->topStandings = $this->getTopStandings();
+
+        // Load feature news (latest 5)
+        $this->featureNews = News::latest()->take(5)->get();
     }
 
     private function getTopStandings()
@@ -182,10 +187,10 @@ class HomePage extends Component
     {
         return <<<'HTML'
         <div class="max-w-[1000px] mx-auto px-4 py-6">
-            <div class="h-8 bg-base-300 rounded w-1/3 mb-6 animate-pulse"></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="h-10 bg-base-300 rounded animate-pulse"></div>
-                <div class="h-10 bg-base-300 rounded animate-pulse"></div>
+            <div class="w-1/3 h-8 mb-6 rounded bg-base-300 animate-pulse"></div>
+            <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2">
+                <div class="h-10 rounded bg-base-300 animate-pulse"></div>
+                <div class="h-10 rounded bg-base-300 animate-pulse"></div>
             </div>
             <div class="overflow-x-auto">
                 <div class="min-h-[400px] bg-base-200 rounded-lg animate-pulse"></div>
@@ -202,6 +207,8 @@ class HomePage extends Component
 
     public function render(): View
     {
-        return view('livewire.home-page');
+        return view('livewire.home-page', [
+            'featureNews' => $this->featureNews, // Pass to view
+        ]);
     }
 }
