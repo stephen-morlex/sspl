@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Players\Tables;
 
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\BooleanColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class PlayersTable
@@ -26,6 +25,8 @@ class PlayersTable
                 TextColumn::make('shirt_number'),
                 TextColumn::make('nationality'),
                 BooleanColumn::make('is_active'),
+                BooleanColumn::make('is_injured'),
+                BooleanColumn::make('is_suspended'),
             ])
             ->filters([
                 //

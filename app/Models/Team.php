@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Team extends BaseModel
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
+    use HasUlids;
 
     protected $fillable = [
         'name',
@@ -30,6 +31,11 @@ class Team extends BaseModel
         return $this->hasMany(Player::class);
     }
 
+    public function coach(): HasOne
+    {
+        return $this->hasOne(Coach::class);
+    }
+
     public function homeFixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'home_team_id');
@@ -45,8 +51,19 @@ class Team extends BaseModel
         return $this->hasMany(Standing::class);
     }
 
+    /**
+     * Get the lineups for this team.
+     */
     public function lineups(): HasMany
     {
         return $this->hasMany(Lineup::class);
+    }
+
+    /**
+     * Get the fixture coaches for this team.
+     */
+    public function fixtureCoaches(): HasMany
+    {
+        return $this->hasMany(FixtureCoach::class);
     }
 }

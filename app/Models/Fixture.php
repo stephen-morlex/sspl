@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use App\Enums\FixtureStatus;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class Fixture extends Model
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
+    use HasUlids;
 
     protected $fillable = [
         'home_team_id',
@@ -75,6 +75,22 @@ class Fixture extends Model
     public function stats(): HasMany
     {
         return $this->hasMany(MatchStat::class);
+    }
+
+    /**
+     * Get the lineups for this fixture.
+     */
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(Lineup::class);
+    }
+
+    /**
+     * Get the fixture coaches for this fixture.
+     */
+    public function fixtureCoaches(): HasMany
+    {
+        return $this->hasMany(FixtureCoach::class);
     }
 
     /**
@@ -151,13 +167,5 @@ class Fixture extends Model
     public function disallowAwayTeamGoal(): void
     {
         $this->decrementAwayScore();
-    }
-
-    /**
-     * Get the lineups for the fixture.
-     */
-    public function lineups(): HasMany
-    {
-        return $this->hasMany(Lineup::class);
     }
 }

@@ -205,84 +205,7 @@
             </svg>
             Stats
         </label>
-        <!-- Team Stats -->
-        <div class="grid grid-cols-1 gap-6 mb-6 tab-content md:grid-cols-2">
-            <!-- Home Team Stats -->
-            <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h3 class="mb-4 text-xl font-bold">{{ $fixture->homeTeam->name }} Stats</h3>
 
-                @if ($homeTeamStats)
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->goals_for ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Goals</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->shots ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Shots</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->possession ?? 0 }}%</div>
-                            <div class="text-sm text-gray-500">Possession</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->corners ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Corners</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->fouls_committed ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Fouls</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $homeTeamStats->yellow_cards ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Yellow Cards</div>
-                        </div>
-                    </div>
-                @else
-                    <div class="py-4 text-center text-gray-500">
-                        No stats available yet.
-                    </div>
-                @endif
-            </div>
-
-            <!-- Away Team Stats -->
-            <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h3 class="mb-4 text-xl font-bold">{{ $fixture->awayTeam->name }} Stats</h3>
-
-                @if ($awayTeamStats)
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->goals_for ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Goals</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->shots ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Shots</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->possession ?? 0 }}%</div>
-                            <div class="text-sm text-gray-500">Possession</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->corners ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Corners</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->fouls_committed ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Fouls</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold">{{ $awayTeamStats->yellow_cards ?? 0 }}</div>
-                            <div class="text-sm text-gray-500">Yellow Cards</div>
-                        </div>
-                    </div>
-                @else
-                    <div class="py-4 text-center text-gray-500">
-                        No stats available yet.
-                    </div>
-                @endif
-            </div>
-        </div>
 
         <label class="tab">
             <input type="radio" name="match_tabs" class="tab-input" />
@@ -293,109 +216,257 @@
             </svg>
             Lineups
         </label>
-        <!-- Player Stats -->
+        <!-- Lineups -->
         <div class="p-6 bg-white rounded-lg shadow tab-content dark:bg-gray-800">
-            <h3 class="mb-4 text-xl font-bold">Player Statistics</h3>
+            <h3 class="mb-4 text-xl font-bold">Team Lineups</h3>
 
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <!-- Home Team Players -->
-                <div>
-                    <h4 class="mb-3 font-bold">{{ $fixture->homeTeam->name }}</h4>
-
-                    @if ($homePlayerStats->isEmpty())
-                        <div class="py-4 text-center text-gray-500">
-                            No player stats available yet.
+            <div class="flex flex-col">
+                <!-- Teams Info Header -->
+                <div class="flex justify-between mb-6">
+                    <!-- Away Team Info -->
+                    <div class="flex flex-col items-center w-1/2">
+                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-gray-200 rounded-full dark:bg-gray-700">
+                            @if ($fixture->awayTeam->logo_path)
+                                <img src="{{ asset('storage/' . $fixture->awayTeam->logo_path) }}"
+                                    alt="{{ $fixture->awayTeam->name }}" class="w-12 h-12">
+                            @else
+                                <span class="text-xl font-bold">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
+                            @endif
                         </div>
-                    @else
-                        <div class="overflow-x-auto">
-                            <table class="table w-full table-zebra">
-                                <thead>
-                                    <tr>
-                                        <th>Player</th>
-                                        <th>G</th>
-                                        <th>A</th>
-                                        <th>S</th>
-                                        <th>YC</th>
-                                        <th>RC</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($homePlayerStats as $stat)
-                                        <tr>
-                                            <td>
-                                                <div class="flex items-center">
-                                                    <div class="mr-2 avatar placeholder">
-                                                        <div
-                                                            class="w-8 rounded-full bg-neutral-focus text-neutral-content">
-                                                            <span
-                                                                class="text-xs">{{ substr($stat->player->first_name, 0, 1) }}{{ substr($stat->player->last_name, 0, 1) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <span>{{ $stat->player->first_name }}
-                                                        {{ $stat->player->last_name }}</span>
-                                                </div>
-                                            </td>
-                                            <td>{{ $stat->goals ?? 0 }}</td>
-                                            <td>{{ $stat->assists ?? 0 }}</td>
-                                            <td>{{ $stat->shots ?? 0 }}</td>
-                                            <td>{{ $stat->yellow_cards ?? 0 }}</td>
-                                            <td>{{ $stat->red_cards ?? 0 }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        <h2 class="text-lg font-bold text-center">{{ $fixture->awayTeam->name }}</h2>
+                        @if(isset($awayLineup) && $awayLineup)
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Formation: {{ $awayLineup->formation ?? 'N/A' }}</p>
+                        @endif
+                    </div>
+                    
+                    <!-- VS Separator -->
+                    <div class="flex items-center justify-center">
+                        <span class="text-2xl font-bold">VS</span>
+                    </div>
+                    
+                    <!-- Home Team Info -->
+                    <div class="flex flex-col items-center w-1/2">
+                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-gray-200 rounded-full dark:bg-gray-700">
+                            @if ($fixture->homeTeam->logo_path)
+                                <img src="{{ asset('storage/' . $fixture->homeTeam->logo_path) }}"
+                                    alt="{{ $fixture->homeTeam->name }}" class="w-12 h-12">
+                            @else
+                                <span class="text-xl font-bold">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
+                            @endif
                         </div>
-                    @endif
+                        <h2 class="text-lg font-bold text-center">{{ $fixture->homeTeam->name }}</h2>
+                        @if(isset($homeLineup) && $homeLineup)
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Formation: {{ $homeLineup->formation ?? 'N/A' }}</p>
+                        @endif
+                    </div>
                 </div>
-
-                <!-- Away Team Players -->
-                <div>
-                    <h4 class="mb-3 font-bold">{{ $fixture->awayTeam->name }}</h4>
-
-                    @if ($awayPlayerStats->isEmpty())
-                        <div class="py-4 text-center text-gray-500">
-                            No player stats available yet.
-                        </div>
-                    @else
-                        <div class="overflow-x-auto">
-                            <table class="table w-full table-zebra">
-                                <thead>
-                                    <tr>
-                                        <th>Player</th>
-                                        <th>G</th>
-                                        <th>A</th>
-                                        <th>S</th>
-                                        <th>YC</th>
-                                        <th>RC</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($awayPlayerStats as $stat)
-                                        <tr>
-                                            <td>
-                                                <div class="flex items-center">
-                                                    <div class="mr-2 avatar placeholder">
-                                                        <div
-                                                            class="w-8 rounded-full bg-neutral-focus text-neutral-content">
-                                                            <span
-                                                                class="text-xs">{{ substr($stat->player->first_name, 0, 1) }}{{ substr($stat->player->last_name, 0, 1) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <span>{{ $stat->player->first_name }}
-                                                        {{ $stat->player->last_name }}</span>
+                
+                <!-- Lineup Field -->
+                <div class="relative bg-green-600 rounded-2xl p-6 mb-6" style="min-height: 500px;">
+                    <!-- Football Field Lines -->
+                    <div class="absolute inset-0 rounded-2xl border-4 border-white opacity-30">
+                        <!-- Center circle -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border-2 border-white"></div>
+                        <!-- Center spot -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full"></div>
+                        <!-- Center line -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-full bg-white"></div>
+                        <!-- Penalty areas -->
+                        <div class="absolute top-0 left-0 w-1/4 h-1/3 border-2 border-white border-t-0 border-l-0"></div>
+                        <div class="absolute bottom-0 left-0 w-1/4 h-1/3 border-2 border-white border-b-0 border-l-0"></div>
+                        <div class="absolute top-0 right-0 w-1/4 h-1/3 border-2 border-white border-t-0 border-r-0"></div>
+                        <div class="absolute bottom-0 right-0 w-1/4 h-1/3 border-2 border-white border-b-0 border-r-0"></div>
+                    </div>
+                    
+                    <!-- Players Layout -->
+                    <div class="relative z-10 flex justify-between h-full">
+                        <!-- Away Team (Left Side) -->
+                        <div class="w-1/2 pr-4">
+                            @if(isset($awayLineup) && $awayLineup)
+                                @php
+                                    // Group players by position
+                                    $awayPlayers = $awayLineup->startingPlayerDetails->sortBy('player.shirt_number');
+                                    $awayGoalkeepers = $awayPlayers->filter(fn($lp) => $lp->player->position === 'GK');
+                                    $awayDefenders = $awayPlayers->filter(fn($lp) => $lp->player->position === 'DEF');
+                                    $awayMidfielders = $awayPlayers->filter(fn($lp) => $lp->player->position === 'MID');
+                                    $awayForwards = $awayPlayers->filter(fn($lp) => $lp->player->position === 'FWD');
+                                @endphp
+                                
+                                <!-- Away Formation Players - Horizontal by Position -->
+                                <div class="flex flex-col justify-between h-full">
+                                    <!-- Away Goalkeeper -->
+                                    <div class="flex justify-start mt-4">
+                                        @foreach($awayGoalkeepers as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-green-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
-                                            </td>
-                                            <td>{{ $stat->goals ?? 0 }}</td>
-                                            <td>{{ $stat->assists ?? 0 }}</td>
-                                            <td>{{ $stat->shots ?? 0 }}</td>
-                                            <td>{{ $stat->yellow_cards ?? 0 }}</td>
-                                            <td>{{ $stat->red_cards ?? 0 }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">GK</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Away Defenders -->
+                                    <div class="flex justify-center my-2">
+                                        @foreach($awayDefenders as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">DEF</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Away Midfielders -->
+                                    <div class="flex justify-center my-2">
+                                        @foreach($awayMidfielders as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">MID</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Away Forwards -->
+                                    <div class="flex justify-center mb-4">
+                                        @foreach($awayForwards as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-red-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">FWD</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center h-full">
+                                    <p class="text-white">Lineup not available</p>
+                                </div>
+                            @endif
                         </div>
-                    @endif
+                        
+                        <!-- Home Team (Right Side) -->
+                        <div class="w-1/2 pl-4">
+                            @if(isset($homeLineup) && $homeLineup)
+                                @php
+                                    // Group players by position
+                                    $homePlayers = $homeLineup->startingPlayerDetails->sortBy('player.shirt_number');
+                                    $homeGoalkeepers = $homePlayers->filter(fn($lp) => $lp->player->position === 'GK');
+                                    $homeDefenders = $homePlayers->filter(fn($lp) => $lp->player->position === 'DEF');
+                                    $homeMidfielders = $homePlayers->filter(fn($lp) => $lp->player->position === 'MID');
+                                    $homeForwards = $homePlayers->filter(fn($lp) => $lp->player->position === 'FWD');
+                                @endphp
+                                
+                                <!-- Home Formation Players - Horizontal by Position -->
+                                <div class="flex flex-col justify-between h-full">
+                                    <!-- Home Goalkeeper -->
+                                    <div class="flex justify-end mt-4">
+                                        @foreach($homeGoalkeepers as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-green-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">GK</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Home Defenders -->
+                                    <div class="flex justify-center my-2">
+                                        @foreach($homeDefenders as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">DEF</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Home Midfielders -->
+                                    <div class="flex justify-center my-2">
+                                        @foreach($homeMidfielders as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">MID</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    <!-- Home Forwards -->
+                                    <div class="flex justify-center mb-4">
+                                        @foreach($homeForwards as $lineupPlayer)
+                                            <div class="text-center mx-2">
+                                                <div class="bg-red-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                    {{ $lineupPlayer->player->shirt_number }}
+                                                </div>
+                                                <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
+                                                <p class="text-xs text-white opacity-75">FWD</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center h-full">
+                                    <p class="text-white">Lineup not available</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bench Players -->
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <!-- Away Team Bench -->
+                    <div>
+                        <h4 class="mb-3 text-lg font-bold">Away Team Bench</h4>
+                        @if(isset($awayLineup) && $awayLineup && $awayLineup->benchPlayerDetails->count() > 0)
+                            <div class="grid grid-cols-5 gap-2">
+                                @foreach($awayLineup->benchPlayerDetails->take(10) as $lineupPlayer)
+                                    <div class="text-center">
+                                        <div class="bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
+                                            {{ $lineupPlayer->player->shirt_number }}
+                                        </div>
+                                        <p class="text-xs mt-1">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-gray-500 dark:text-gray-400">No bench players available</p>
+                        @endif
+                    </div>
+                    
+                    <!-- Home Team Bench -->
+                    <div>
+                        <h4 class="mb-3 text-lg font-bold">Home Team Bench</h4>
+                        @if(isset($homeLineup) && $homeLineup && $homeLineup->benchPlayerDetails->count() > 0)
+                            <div class="grid grid-cols-5 gap-2">
+                                @foreach($homeLineup->benchPlayerDetails->take(10) as $lineupPlayer)
+                                    <div class="text-center">
+                                        <div class="bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
+                                            {{ $lineupPlayer->player->shirt_number }}
+                                        </div>
+                                        <p class="text-xs mt-1">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-gray-500 dark:text-gray-400">No bench players available</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

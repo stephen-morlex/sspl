@@ -1,0 +1,191 @@
+.lineups {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .lineups {
+    flex-direction: row;
+  }
+}
+
+.lineups-team-formation {
+  flex: 1;
+  position: relative;
+}
+
+.lineups-team-formation--home {
+  order: 1;
+}
+
+.lineups-team-formation--away {
+  order: 2;
+}
+
+@media (min-width: 768px) {
+  .lineups-team-formation--home {
+    order: 1;
+  }
+  
+  .lineups-team-formation--away {
+    order: 2;
+  }
+}
+
+.lineups-team-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.lineups-team-info__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lineups-team-info__team-name {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.lineups-team-info__formation {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.lineups-team-info__formation-label {
+  font-weight: normal;
+  margin-right: 0.25rem;
+}
+
+.lineups-team-formation__formation {
+  position: relative;
+  min-height: 300px;
+  background-color: #f3f4f6; /* Light gray background like a football field */
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.dark .lineups-team-formation__formation {
+  background-color: #374151; /* Darker gray for dark mode */
+}
+
+.lineups-team-formation__row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}
+
+.lineups-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+}
+
+.lineups-player__container {
+  position: relative;
+}
+
+.lineups-player__headshot {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 2px solid #3b82f6; /* Blue border for home team */
+}
+
+.lineups-team-formation--away .lineups-player__headshot {
+  border-color: #ef4444; /* Red border for away team */
+}
+
+.lineups-player__headshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lineups-player__info {
+  text-align: center;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.lineups-player__shirt-number {
+  display: block;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.lineups-player__container:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Bench players section */
+.lineups-team-formation__bench {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark .lineups-team-formation__bench {
+  border-top-color: #4b5563;
+}
+
+.lineups-team-formation__bench-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.lineups-team-formation__bench-players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.lineups-team-formation__bench-player {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  background-color: #f9fafb;
+  border-radius: 0.25rem;
+}
+
+.dark .lineups-team-formation__bench-player {
+  background-color: #374151;
+}
+
+.lineups-team-formation__bench-player-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 0.25rem;
+}
+
+.lineups-team-formation__bench-player-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lineups-team-formation__bench-player-info {
+  font-size: 0.75rem;
+}
+
+.lineups-team-formation__bench-player-shirt {
+  font-weight: bold;
+}

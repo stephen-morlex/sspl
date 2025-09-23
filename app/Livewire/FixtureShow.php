@@ -18,6 +18,8 @@ class FixtureShow extends Component
     public $awayTeamStats;
     public $homePlayerStats;
     public $awayPlayerStats;
+    public $homeLineup;
+    public $awayLineup;
     public $fixtureId;
 
     public function mount($id)
@@ -87,6 +89,23 @@ class FixtureShow extends Component
             ->orderBy('goals', 'desc')
             ->orderBy('assists', 'desc')
             ->get();
+
+        // Load lineups
+        $this->homeLineup = $this->fixture->lineups()
+            ->where('team_id', $this->fixture->home_team_id)
+            ->with([
+                'startingPlayerDetails.player',
+                'benchPlayerDetails.player'
+            ])
+            ->first();
+
+        $this->awayLineup = $this->fixture->lineups()
+            ->where('team_id', $this->fixture->away_team_id)
+            ->with([
+                'startingPlayerDetails.player',
+                'benchPlayerDetails.player'
+            ])
+            ->first();
     }
 
     // Add polling to ensure updates are visible

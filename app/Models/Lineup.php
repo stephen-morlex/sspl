@@ -2,41 +2,66 @@
 
 namespace App\Models;
 
-use App\Enums\LineupStatus;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Lineup extends Model
+class Lineup extends BaseModel
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
+    use HasUlids;
 
     protected $fillable = [
         'fixture_id',
         'team_id',
-        'player_id',
-        'position',
-        'is_starting',
-        'status',
+        'formation',
     ];
 
-    protected $casts = [
-        'is_starting' => 'boolean',
-        'status' => LineupStatus::class,
-    ];
-
-    public function fixture()
+    public function fixture(): BelongsTo
     {
         return $this->belongsTo(Fixture::class);
     }
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }
 
-    public function player()
+    public function lineupPlayers(): HasMany
     {
-        return $this->belongsTo(Player::class);
+        return $this->hasMany(LineupPlayer::class);
+    }
+
+    /**
+     * Get the starting players for this lineup.
+     */
+    public function startingPlayers(): HasMany
+    {
+        return $this->lineupPlayers()->where('role', 'starting');
+    }
+
+    /**
+     * Get the bench players for this lineup.
+     */
+    public function benchPlayers(): HasMany
+    {
+        return $this->lineupPlayers()->where('role', 'bench');
+    }
+
+    /**
+     * Get the starting players with their player data.
+     */
+    public function startingPlayerDetails(): HasMany
+    {
+        return $this->startingPlayers()->with('player');
+    }
+
+    /**
+     * Get the bench players with their player data.
+     */
+    public function benchPlayerDetails(): HasMany
+    {
+        return $this->benchPlayers()->with('player');
     }
 }

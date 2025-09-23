@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Player extends BaseModel
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
+    use HasUlids;
 
     protected $fillable = [
         'first_name',
@@ -24,6 +25,8 @@ class Player extends BaseModel
         'bio',
         'photo_path',
         'is_active',
+        'is_injured',
+        'is_suspended',
     ];
 
     protected $casts = [
@@ -31,6 +34,8 @@ class Player extends BaseModel
         'height' => 'integer',
         'weight' => 'integer',
         'is_active' => 'boolean',
+        'is_injured' => 'boolean',
+        'is_suspended' => 'boolean',
         'shirt_number' => 'integer',
     ];
 
@@ -46,7 +51,15 @@ class Player extends BaseModel
     {
         return $this->hasMany(Statistics::class);
     }
-    
+
+    /**
+     * Get the lineup players for this player.
+     */
+    public function lineupPlayers(): HasMany
+    {
+        return $this->hasMany(LineupPlayer::class);
+    }
+
     /**
      * Get the player's full name.
      */
@@ -56,10 +69,10 @@ class Player extends BaseModel
     }
 
     /**
-     * Get the lineups for the player.
+     * Check if the player is available for selection.
      */
-    public function lineups(): HasMany
+    public function isAvailable(): bool
     {
-        return $this->hasMany(Lineup::class);
+        return $this->is_active && ! $this->is_injured && ! $this->is_suspended;
     }
 }

@@ -2,13 +2,12 @@
 
 namespace App\Filament\Resources\Players\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use App\Models\Team;
 use Filament\Schemas\Schema;
 
 class PlayerForm
@@ -54,6 +53,10 @@ class PlayerForm
                     ->image(),
                 Toggle::make('is_active')
                     ->default(true),
+                Toggle::make('is_injured')
+                    ->default(false),
+                Toggle::make('is_suspended')
+                    ->default(false),
             ]);
     }
 }
