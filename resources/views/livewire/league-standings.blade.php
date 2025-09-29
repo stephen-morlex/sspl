@@ -1,5 +1,5 @@
 <div>
-    <div class="px-4 py-6 mx-auto max-w-7xl" wire:poll.60s="loadStandings">
+    <div class="px-4 py-6 mx-auto max-w-4xl" wire:poll.60s="loadStandings">
         <!-- Header -->
         <h1 class="text-3xl font-bold text-center text-base-content">TABLE STANDINGS</h1>
 

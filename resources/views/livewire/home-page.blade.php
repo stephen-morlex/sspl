@@ -1,14 +1,14 @@
 <div class="py-4 lg:py-6">
-    <!-- Main grid: Left column (hero + live + news) and Right column (aside) -->
+    <!-- Main grid: Left column (hero + live + upcoming matches) and Right column (standings + feature news) -->
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <!-- LEFT COLUMN: Hero + Live + News -->
+        <!-- LEFT COLUMN: Hero + Live + Upcoming Matches -->
         <div class="space-y-6 lg:col-span-2">
             <!-- HERO -->
             <section>
                 <div class="shadow-sm card bg-gradient-to-r from-success to-warning text-base-100">
                     <div class="card-body">
                         <div
-                            class="inline-flex items-center gap-2 bg-success/50 text-base-100 rounded-full w-32 px-3 h-7 text-[13px] mb-3">
+                            class="inline-flex items-center gap-2 bg-success/50 text-base-100 rounded-full w-46 px-3 h-7 text-[13px] mb-3">
                             <span class="w-2 h-2 rounded-full bg-error"></span>
                             Transfer Watch
                         </div>
@@ -26,20 +26,20 @@
 
             <!-- Live Matches -->
             @if ($liveFixtures->isNotEmpty())
-                <section class="shadow card bg-base-100">
-                    <div class="p-0 card-body">
+                <section class="">
+                    <div class="p-0 ">
                         <div class="flex items-center gap-2 py-4 border-error/20">
-                            <h2 class="text-3xl font-semibold text-base-content">Live Matches</h2>
+                            <h2 class="text-3xl font-medium text-base-content ">Live Matches</h2>
                         </div>
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             @foreach ($liveFixtures as $fixture)
                                 <a href="{{ route('fixtures.show', $fixture->id) }}"
-                                    class="transition-all duration-300 card bg-base-100 hover:shadow-lg">
+                                    class="transition-all duration-300 card bg-base-100 hover:shadow-md">
                                     <div class="p-4 card-body">
                                         <div
                                             class="flex items-center justify-between mb-3 text-[13px] text-base-content/70">
                                             <span class="">{{ $fixture->league->name }}</span>
-                                            <span class="badge badge-error badge-sm">LIVE</span>
+                                            <span class="badge badge-error badge-sm text-base-100 ">live</span>
                                         </div>
                                         <div class="flex items-center justify-between gap-2">
                                             <!-- Home Team -->
@@ -65,11 +65,7 @@
                                                 <div class="text-xl font-bold text-error">{{ $fixture->home_score }} -
                                                     {{ $fixture->away_score }}</div>
                                                 <div class="text-[12px] text-base-content/70 mt-1">
-                                                    @if ($fixture->status === 'live')
-                                                        LIVE
-                                                    @else
-                                                        {{ $fixture->kickoff_time->format('H:i') }}
-                                                    @endif
+                                                    {{ $this->getMatchTime($fixture) }}
                                                 </div>
                                             </div>
                                             <!-- Away Team -->
@@ -108,13 +104,13 @@
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         @forelse($upcomingFixtures as $fixture)
                             <a href="{{ route('fixtures.show', $fixture->id) }}"
-                                class="transition-all duration-300 shadow card bg-base-100 hover:shadow-lg">
+                                class="transition-all duration-300  card bg-base-100 hover:shadow-md">
                                 <div class="p-4 card-body">
                                     <div
                                         class="flex items-center justify-between mb-3 text-[13px] text-base-content/70">
                                         <span class="badge badge-primary badge-sm">{{ $fixture->league->name }}</span>
                                         <span
-                                            class="text-base-content">{{ $fixture->kickoff_time->format('M j, Y') }}</span>
+                                            class="text-base-content">{{ $fixture->kickoff_time->format('j M, Y') }}</span>
                                     </div>
                                     <div class="flex items-center justify-between gap-2">
                                         <!-- Home Team -->
@@ -122,13 +118,13 @@
                                             <div class="mb-1 avatar placeholder">
                                                 <div
                                                     class="flex items-center justify-center w-12 h-12 bg-base-200 mask mask-squircle">
-                                                    @if ($fixture->homeTeam->logo_path)
-                                                        <img src="{{ asset('storage/' . $fixture->homeTeam->logo_path) }}"
-                                                            alt="{{ $fixture->homeTeam->name }} logo"
-                                                            class="object-contain w-8 h-8">
-                                                    @else
-                                                    @endif
-                                                </div>
+                                                @if ($fixture->homeTeam->logo_path)
+                                                    <img src="{{ asset('storage/' . $fixture->homeTeam->logo_path) }}"
+                                                        alt="{{ $fixture->homeTeam->name }} logo"
+                                                        class="object-contain w-8 h-8">
+                                                @else
+                                                @endif
+                                            </div>
                                             </div>
 
                                             <span
@@ -140,7 +136,7 @@
                                             <div class="mt-2 text-[13px] text-base-content/70 text-center">
                                                 <span
                                                     class="badge badge-outline badge-sm text-base-content">{{ $fixture->kickoff_time->format('g:i A') }}</span>
-                                                <div class="text-base-content">{{ $fixture->venue }}</div>
+                                                <div class="text-base-content mt-2">{{ $fixture->venue }}</div>
                                             </div>
                                         </div>
                                         <!-- Away Team -->
@@ -148,13 +144,13 @@
                                             <div class="mb-1 avatar placeholder">
                                                 <div
                                                     class="flex items-center justify-center w-12 h-12 bg-base-200 mask mask-squircle">
-                                                    @if ($fixture->awayTeam->logo_path)
-                                                        <img src="{{ asset('storage/' . $fixture->awayTeam->logo_path) }}"
-                                                            alt="{{ $fixture->awayTeam->name }} logo"
-                                                            class="object-contain w-8 h-8">
-                                                    @else
-                                                    @endif
-                                                </div>
+                                                @if ($fixture->awayTeam->logo_path)
+                                                    <img src="{{ asset('storage/' . $fixture->awayTeam->logo_path) }}"
+                                                        alt="{{ $fixture->awayTeam->name }} logo"
+                                                        class="object-contain w-8 h-8">
+                                                @else
+                                                @endif
+                                            </div>
                                             </div>
                                             <span
                                                 class="font-medium text-center text-base-content">{{ $fixture->awayTeam->name }}</span>
@@ -171,10 +167,10 @@
             </section>
         </div>
 
-        <!-- RIGHT COLUMN: Aside (Top Standings + Quick Links + Premier League) -->
+        <!-- RIGHT COLUMN: Standings + Feature News -->
         <aside class="space-y-6">
             <!-- Top Standings -->
-            <section class="shadow card bg-base-100">
+            <section class="card bg-base-100">
                 <div class="p-0 card-body">
                     <div class="px-5 py-4">
                         <h2 class="text-lg font-semibold text-base-content">Top Standings</h2>
@@ -193,49 +189,39 @@
                             <tbody>
                                 @forelse($topStandings as $index => $standing)
                                     <tr>
-                                        <td class="text-base-content">
-                                            <span
-                                                class="{{ $index < 4 ? 'text-success font-bold' : 'text-base-content' }}">{{ $index + 1 }}</span>
-                                        </td>
-                                        <td class="text-base-content">
-                                            <div class="flex items-center gap-2">
-                                                <div class="w-8 h-8 mask mask-squircle">
-                                                    @if ($standing->team->logo_path)
-                                                        <img src="{{ asset('storage/' . $standing->team->logo_path) }}"
-                                                            alt="{{ $standing->team->name }} logo"
-                                                            class="object-contain w-6 h-6">
-                                                    @else
-                                                        <span
-                                                            class="text-xs text-base-content">{{ substr($standing->team->name, 0, 3) }}</span>
-                                                    @endif
-                                                </div>
-                                                <span class="text-base-content">{{ $standing->team->name }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="text-center text-base-content">{{ $standing->played }}</td>
-                                        <td class="text-center text-base-content">{{ $standing->goal_difference }}
-                                        </td>
-                                        <td
-                                            class="text-center font-semibold text-base-content {{ $index < 4 ? 'text-success' : '' }}">
-                                            {{ $standing->points }}</td>
-                                    </tr>
+                                    <td class="text-base-content">
+                                        <span
+                                            class="{{ $index < 4 ? 'text-success font-bold' : 'text-base-content' }}">{!! $index + 1 !!}</span>
+                                    </td>
+                                    <td class="text-base-content">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-base-content">{{ $standing->team->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center text-base-content">{{ $standing->played }}</td>
+                                    <td class="text-center text-base-content">{{ $standing->goal_difference }}
+                                    </td>
+                                    <td
+                                        class="text-center font-semibold text-base-content {{ $index < 4 ? 'text-success' : '' }}">
+                                        {{ $standing->points }}</td>
+                                </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-base-content">No standings
+                                        <td colspan="5" class="text-center text-base-content ">No standings
                                             available.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-                    <div class="px-4 py-3 text-sm text-center">
-                        <a href="{{ route('standings') }}" class="link link-primary">View Full Standings →</a>
+                    <div class="px-4 py-3 text-sm text-center mt-2">
+                        <a href="{{ route('standings') }}" class="link link-hover link-primary">View Full Standings →</a>
                     </div>
                 </div>
             </section>
 
             <!-- Feature News -->
-            <section class="shadow card bg-base-100">
+            <section class=" card bg-base-100">
                 <div class="p-0 card-body">
                     <div class="px-5 py-4">
                         <h2 class="text-lg font-semibold text-base-content">Feature News</h2>
@@ -267,7 +253,7 @@
                         @endforeach
                     </div>
                     <div class="px-4 py-3 text-sm text-center">
-                        <a href="{{ route('news.index') }}" class="link link-primary">More News →</a>
+                        <a href="{{ route('news.index') }}" class="link link-primary link-hover">More News →</a>
                     </div>
                 </div>
             </section>

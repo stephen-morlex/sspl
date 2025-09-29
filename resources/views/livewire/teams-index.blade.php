@@ -1,5 +1,5 @@
 <div class="py-6">
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
         <h1 class="mb-8 text-left text-3xl font-bold text-base-content">TEAMS</h1>
 
         @if (isset($teams) && $teams->isEmpty())
@@ -11,7 +11,7 @@
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($teams as $team)
                     <a href="{{ route('teams.show', $team->id) }}"
-                        class="card bg-base-100 shadow transition-all duration-300 hover:shadow-lg">
+                        class="card bg-base-100 transition-all duration-300 hover:shadow-md">
                         <div class="card-body p-6">
                             <div class="flex items-center gap-4 mb-4">
                                 <div class="avatar">
@@ -20,7 +20,7 @@
                                             alt="{{ $team->name }}" />
                                     </div>
                                 </div>
-                                <h2 class="text-xl font-bold text-base-content">{{ $team->name }}</h2>
+                                <h2 class="text-lg font-bold text-base-content hover:text-primary">{{ $team->name }}</h2>
                             </div>
 
                             <div class="flex items-center justify-between gap-2 text-sm">
@@ -39,7 +39,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    <span class="text-base-content">Founded: {{ $team->founded_year ?? 'N/A' }}</span>
+                                    <span class="text-base-content">{{ $team->founded_year ?? 'N/A' }}</span>
                                 </div>
                             </div>
                         </div>

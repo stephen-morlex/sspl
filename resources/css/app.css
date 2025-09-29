@@ -1,11 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+
+
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: blue;
+  --color-secondary: teal;
 }
+/* @plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+} */
 /* @import "@fontsource-variable/josefin-sans"; */
 @theme {
   --font-josfin-sans:  "Josefin Sans", sans-serif;
   --font-inter: "Inter", sans-serif;
+}
+
+
+h2, h1, h3, h4, h5, h6, .heading {
+    font-family: var(--font-josfin-sans);
 }

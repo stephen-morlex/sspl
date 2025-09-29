@@ -1,5 +1,5 @@
 <div class="py-6">
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
         <!-- Player Header with Image Background -->
         <div class="w-full mb-8 card bg-gradient-to-r from-green to-success/50 image-full">
             @if ($player->photo_path)

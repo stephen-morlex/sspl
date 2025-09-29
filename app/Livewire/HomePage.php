@@ -53,7 +53,7 @@ class HomePage extends Component
     private function getTopStandings()
     {
         // Get the Premier League
-        $premierLeague = League::where('name', 'South Sudan Premier League')->first();
+        $premierLeague = League::where('name', 'Premier League')->first();
 
         if (!$premierLeague) {
             return collect();
@@ -204,6 +204,38 @@ class HomePage extends Component
     {
         // Reload data when a match event is created
         $this->loadData();
+    }
+
+    public function getMatchTime($fixture)
+    {
+        if ($fixture->status !== 'live') {
+            return $fixture->kickoff_time->format('H:i');
+        }
+
+        $kickoffTime = \Carbon\Carbon::parse($fixture->kickoff_time);
+        $now = \Carbon\Carbon::now();
+        $matchDuration = $now->diffInMinutes($kickoffTime);
+
+        if ($matchDuration < 45) {
+            return $matchDuration . "'";  // First half
+        } elseif ($matchDuration >= 45 && $matchDuration < 46) {
+            return 'HT'; // Halftime
+        } elseif ($matchDuration >= 46 && $matchDuration < 90) {
+            $secondHalf = $matchDuration - 45;
+            return (45 + $secondHalf) . "'"; // Second half
+        } elseif ($matchDuration >= 90 && $matchDuration < 91) {
+            return '90\' +'; // End of regulation + stoppage time
+        } elseif ($matchDuration >= 91 && $matchDuration < 106) {
+            $extraTime = $matchDuration - 90;
+            return 'ET' . $extraTime . "'"; // Extra time first half
+        } elseif ($matchDuration >= 106 && $matchDuration < 107) {
+            return 'HT ET'; // Extra time halftime
+        } elseif ($matchDuration >= 107 && $matchDuration < 120) {
+            $extraTimeSecondHalf = $matchDuration - 105;
+            return 'ET' . (15 + $extraTimeSecondHalf) . "'"; // Extra time second half
+        } else {
+            return 'FT'; // Full time - in case status wasn't updated yet
+        }
     }
 
     public function render(): View

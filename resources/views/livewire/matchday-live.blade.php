@@ -1,6 +1,6 @@
 <div
     wire:poll.{{ $pollingInterval }}s="loadFixtures"
-    class="max-w-7xl mx-auto px-4 py-6"
+    class="max-w-4xl mx-auto px-4 py-6"
 
 >
     <!-- Header & Filters -->
@@ -52,10 +52,10 @@
         </div>
     </div>
 
-    <!-- Live ticker strip -->
+    {{-- <!-- Live ticker strip -->
     <div class="mb-6">
         @if($liveFixtures->isNotEmpty())
-            <div class="card card-bordered bg-accent text-accent-content">
+            <div class="card card-bordered ">
                 <div class="card-body p-4">
                     <div class="flex items-center gap-3 text-sm overflow-x-auto no-scrollbar">
                         <span class="inline-flex items-center gap-2  shrink-0">
@@ -76,16 +76,16 @@
                 </div>
             </div>
         @endif
-    </div>
+    </div> --}}
 
     <!-- Grouped matches by day -->
     @forelse($grouped as $day => $times)
         <div class="card card-bordered  mb-4">
             <div class="card-body p-0">
-                <div class="px-4 py-2 text-xs font-semibold tracking-wide bg-secondary border-b border-base-content/10">{{ strtoupper($day) }}</div>
+                <div class="px-4 py-2 text-xs font-semibold tracking-wide border-b border-base-content/10">{{ strtoupper($day) }}</div>
                 @foreach($times as $time => $fixturesAtTime)
                     @foreach($fixturesAtTime as $fixture)
-                        <div class="flex items-center bg-base-100 justify-between px-4 h-14 border-b border-base-content/10 hover:bg-base-200 transition-colors">
+                        <div class="flex items-center bg-base-100 justify-between px-4 h-14 border-b border-base-content/10 hover:shadow-sm">
                             <div class="w-16 text-xs text-base-content/70">{{ $fixture->kickoff_time->format('H:i') }}</div>
                             <div class="flex-1 grid grid-cols-12 items-center gap-2">
                                 <div class="col-span-5 flex items-center gap-2">

@@ -1,7 +1,7 @@
-<div class="bg-base-200 border-t border-base-200">
+<div class="bg-base-100 border-t border-base-200">
     <div class="max-w-[1200px] mx-auto px-4">
         <div class="flex items-center gap-3 h-10 overflow-x-auto no-scrollbar text-sm">
-            <span class="inline-flex items-center gap-2 shrink-0 text-base-content/70">
+            <span class="inline-flex items-center gap-2 shrink-0 text-base-content/50">
                 <span class="status status-error"></span>
                 <span class="text-base-content">Latest</span>
             </span>

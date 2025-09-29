@@ -1,5 +1,5 @@
 <div class="py-6">
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
         <!-- Team Header -->
         <div class="mb-8 text-white card bg-gradient-to-r from-primary to-accent">
             <div class="card-body">
@@ -175,8 +175,8 @@
                                             @endphp
                                             <span
                                                 class="badge badge-soft
-                                                @if ($result === 'W') badge-success 
-                                                @elseif($result === 'L') badge-error 
+                                                @if ($result === 'W') badge-success
+                                                @elseif($result === 'L') badge-error
                                                 @else badge-warning @endif">
                                                 {{ $result }}
                                             </span>

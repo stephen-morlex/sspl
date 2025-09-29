@@ -1,4 +1,4 @@
-<div class="px-4 py-6 mx-auto max-w-7xl" wire:poll.5s="loadData">
+<div class="px-4 py-6 mx-auto max-w-4xl" wire:poll.5s="loadData">
 
     <!-- Notification -->
     <div x-data="{ show: false, message: '', type: 'success' }" x-show="show" x-transition:enter="transition ease-out duration-300"
@@ -8,50 +8,49 @@
         x-transition:leave-end="opacity-0 transform translate-y-[-20px]"
         @notify.window="show = true; message = $event.detail.message; type = $event.detail.type; setTimeout(() => show = false, 3000)"
         class="fixed z-50 top-4 right-4">
-        <div :class="{
-            'bg-green-100 border-green-400 text-green-700': type === 'success',
-            'bg-red-100 border-red-400 text-red-700': type === 'error',
-            'bg-blue-100 border-blue-400 text-blue-700': type === 'info'
-        }"
-            class="relative px-4 py-3 rounded" role="alert">
+        <div x-show="show" :class="{
+            'alert alert-success': type === 'success',
+            'alert alert-error': type === 'error',
+            'alert alert-info': type === 'info'
+        }" class="relative px-4 py-3" role="alert">
             <span class="block sm:inline" x-text="message"></span>
         </div>
     </div>
 
     <!-- Match Header -->
-    <div class="p-6 mb-6 bg-white rounded-lg shadow dark:bg-gray-800">
+    <div class="p-6 mb-6 card bg-base-100 shadow">
         <div class="flex items-center justify-between mb-4">
-            <div class="text-sm text-gray-500 dark:text-gray-400">
+            <div class="text-sm text-base-content/70">
                 {{ $fixture->league->name }}
             </div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
+            <div class="text-sm text-base-content/70">
                 {{ $fixture->kickoff_time->format('M d, Y H:i') }}
             </div>
         </div>
 
         <div class="flex items-center justify-between">
             <div class="flex items-center">
-                <div class="flex items-center justify-center w-16 h-16 mr-4 bg-gray-200 rounded-full dark:bg-gray-700">
+                <div class="flex items-center justify-center w-16 h-16 mr-4 bg-base-200 rounded-full">
                     @if ($fixture->homeTeam->logo_path)
                         <img src="{{ asset('storage/' . $fixture->homeTeam->logo_path) }}"
                             alt="{{ $fixture->homeTeam->name }}" class="w-12 h-12">
                     @else
-                        <span class="text-xl font-bold">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
+                        <span class="text-xl font-bold text-base-content">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
                     @endif
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold">{{ $fixture->homeTeam->name }}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $fixture->homeTeam->city }}</p>
+                    <h3 class="text-lg font-bold text-base-content">{{ $fixture->homeTeam->name }}</h3>
+                    <p class="text-sm text-base-content/70">{{ $fixture->homeTeam->city }}</p>
                 </div>
             </div>
 
             <div class="text-center">
-                <div class="text-3xl font-bold">
+                <div class="text-3xl font-bold text-base-content">
                     {{ $fixture->home_score }} - {{ $fixture->away_score }}
                 </div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">
+                <div class="text-sm text-base-content/70">
                     @if ($fixture->status === 'live')
-                        <span class="font-bold text-red-500">LIVE</span>
+                        <span class="font-bold text-error">LIVE</span>
                     @else
                         {{ strtoupper($fixture->status->value ?? (string) $fixture->status) }}
                     @endif
@@ -60,15 +59,15 @@
 
             <div class="flex items-center">
                 <div class="mr-4 text-right">
-                    <h3 class="text-lg font-bold">{{ $fixture->awayTeam->name }}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $fixture->awayTeam->city }}</p>
+                    <h3 class="text-lg font-bold text-base-content">{{ $fixture->awayTeam->name }}</h3>
+                    <p class="text-sm text-base-content/70">{{ $fixture->awayTeam->city }}</p>
                 </div>
-                <div class="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-full dark:bg-gray-700">
+                <div class="flex items-center justify-center w-16 h-16 bg-base-200 rounded-full">
                     @if ($fixture->awayTeam->logo_path)
                         <img src="{{ asset('storage/' . $fixture->awayTeam->logo_path) }}"
                             alt="{{ $fixture->awayTeam->name }}" class="w-12 h-12">
                     @else
-                        <span class="text-xl font-bold">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
+                        <span class="text-xl font-bold text-base-content">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
                     @endif
                 </div>
             </div>
@@ -87,15 +86,15 @@
             Timeline
         </label>
         <!-- Timeline/Events -->
-        <div class="p-6 mb-6 bg-white rounded-lg shadow tab-content dark:bg-gray-800">
-            <h3 class="mb-4 text-xl font-bold">Match Events</h3>
+        <div class="p-6 mb-6 card bg-base-100 shadow tab-content">
+            <h3 class="mb-4 text-xl font-bold text-base-content">Match Events</h3>
             @php
                 // Merge and sort all events by minute
                 $allEvents = collect($events['home'])->merge($events['away'])->sortBy('minute');
             @endphp
 
             @if ($allEvents->isEmpty())
-                <div class="py-8 text-center text-gray-500">
+                <div class="py-8 text-center text-base-content/70">
                     No events recorded yet.
                 </div>
             @else
@@ -111,12 +110,12 @@
                                 @if ($isHome)
                                     <!-- Home event left -->
                                     <div class="flex justify-end flex-1 pr-6">
-                                        <div class="max-w-xs p-3 text-right shadow bg-base-100 rounded-box">
+                                        <div class="max-w-xs p-3 text-right bg-base-100 rounded-box shadow">
                                             <div class="flex items-center justify-end gap-2">
                                                 <span class="font-bold text-primary">{{ $event->minute }}'</span>
                                                 @if ($event->event_type === 'goal')
                                                     <span
-                                                        class="flex items-center justify-center inline-block w-5 h-5 bg-green-500 rounded-full">
+                                                        class="flex items-center justify-center inline-block w-5 h-5 bg-success rounded-full">
                                                         <svg class="w-3 h-3 text-white" fill="none"
                                                             stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -124,21 +123,21 @@
                                                         </svg>
                                                     </span>
                                                 @elseif($event->event_type === 'yellow_card')
-                                                    <span class="inline-block w-5 h-5 bg-yellow-500 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-warning rounded"></span>
                                                 @elseif($event->event_type === 'red_card')
-                                                    <span class="inline-block w-5 h-5 bg-red-500 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-error rounded"></span>
                                                 @else
-                                                    <span class="inline-block w-5 h-5 bg-gray-300 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-neutral rounded"></span>
                                                 @endif
                                             </div>
-                                            <div class="font-medium">
+                                            <div class="font-medium text-base-content">
                                                 @if ($event->player)
                                                     {{ $event->player->first_name }} {{ $event->player->last_name }}
                                                 @else
                                                     {{ $event->team->name }}
                                                 @endif
                                             </div>
-                                            <div class="text-xs text-gray-500 capitalize">
+                                            <div class="text-xs text-base-content/70 capitalize">
                                                 {{ str_replace('_', ' ', $event->event_type) }}
                                             </div>
                                         </div>
@@ -156,11 +155,11 @@
                                     </div>
                                     <!-- Away event right -->
                                     <div class="flex justify-start flex-1 pl-6">
-                                        <div class="max-w-xs p-3 text-left shadow bg-base-100 rounded-box">
+                                        <div class="max-w-xs p-3 text-left bg-base-100 rounded-box shadow">
                                             <div class="flex items-center gap-2">
                                                 @if ($event->event_type === 'goal')
                                                     <span
-                                                        class="flex items-center justify-center inline-block w-5 h-5 bg-green-500 rounded-full">
+                                                        class="flex items-center justify-center inline-block w-5 h-5 bg-success rounded-full">
                                                         <svg class="w-3 h-3 text-white" fill="none"
                                                             stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -168,22 +167,22 @@
                                                         </svg>
                                                     </span>
                                                 @elseif($event->event_type === 'yellow_card')
-                                                    <span class="inline-block w-5 h-5 bg-yellow-500 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-warning rounded"></span>
                                                 @elseif($event->event_type === 'red_card')
-                                                    <span class="inline-block w-5 h-5 bg-red-500 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-error rounded"></span>
                                                 @else
-                                                    <span class="inline-block w-5 h-5 bg-gray-300 rounded"></span>
+                                                    <span class="inline-block w-5 h-5 bg-neutral rounded"></span>
                                                 @endif
                                                 <span class="font-bold text-accent">{{ $event->minute }}'</span>
                                             </div>
-                                            <div class="font-medium">
+                                            <div class="font-medium text-base-content">
                                                 @if ($event->player)
                                                     {{ $event->player->first_name }} {{ $event->player->last_name }}
                                                 @else
                                                     {{ $event->team->name }}
                                                 @endif
                                             </div>
-                                            <div class="text-xs text-gray-500 capitalize">
+                                            <div class="text-xs text-base-content/70 capitalize">
                                                 {{ str_replace('_', ' ', $event->event_type) }}
                                             </div>
                                         </div>
@@ -217,52 +216,52 @@
             Lineups
         </label>
         <!-- Lineups -->
-        <div class="p-6 bg-white rounded-lg shadow tab-content dark:bg-gray-800">
-            <h3 class="mb-4 text-xl font-bold">Team Lineups</h3>
+        <div class="p-6 card bg-base-100 shadow tab-content">
+            <h3 class="mb-4 text-xl font-bold text-base-content">Team Lineups</h3>
 
             <div class="flex flex-col">
                 <!-- Teams Info Header -->
                 <div class="flex justify-between mb-6">
                     <!-- Away Team Info -->
                     <div class="flex flex-col items-center w-1/2">
-                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-gray-200 rounded-full dark:bg-gray-700">
+                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-base-200 rounded-full">
                             @if ($fixture->awayTeam->logo_path)
                                 <img src="{{ asset('storage/' . $fixture->awayTeam->logo_path) }}"
                                     alt="{{ $fixture->awayTeam->name }}" class="w-12 h-12">
                             @else
-                                <span class="text-xl font-bold">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
+                                <span class="text-xl font-bold text-base-content">{{ substr($fixture->awayTeam->name, 0, 3) }}</span>
                             @endif
                         </div>
-                        <h2 class="text-lg font-bold text-center">{{ $fixture->awayTeam->name }}</h2>
+                        <h2 class="text-lg font-bold text-center text-base-content">{{ $fixture->awayTeam->name }}</h2>
                         @if(isset($awayLineup) && $awayLineup)
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Formation: {{ $awayLineup->formation ?? 'N/A' }}</p>
+                            <p class="text-sm text-base-content/70">Formation: {{ $awayLineup->formation ?? 'N/A' }}</p>
                         @endif
                     </div>
-                    
+
                     <!-- VS Separator -->
                     <div class="flex items-center justify-center">
-                        <span class="text-2xl font-bold">VS</span>
+                        <span class="text-2xl font-bold text-base-content">VS</span>
                     </div>
-                    
+
                     <!-- Home Team Info -->
                     <div class="flex flex-col items-center w-1/2">
-                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-gray-200 rounded-full dark:bg-gray-700">
+                        <div class="flex items-center justify-center w-16 h-16 mb-2 bg-base-200 rounded-full">
                             @if ($fixture->homeTeam->logo_path)
                                 <img src="{{ asset('storage/' . $fixture->homeTeam->logo_path) }}"
                                     alt="{{ $fixture->homeTeam->name }}" class="w-12 h-12">
                             @else
-                                <span class="text-xl font-bold">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
+                                <span class="text-xl font-bold text-base-content">{{ substr($fixture->homeTeam->name, 0, 3) }}</span>
                             @endif
                         </div>
-                        <h2 class="text-lg font-bold text-center">{{ $fixture->homeTeam->name }}</h2>
+                        <h2 class="text-lg font-bold text-center text-base-content">{{ $fixture->homeTeam->name }}</h2>
                         @if(isset($homeLineup) && $homeLineup)
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Formation: {{ $homeLineup->formation ?? 'N/A' }}</p>
+                            <p class="text-sm text-base-content/70">Formation: {{ $homeLineup->formation ?? 'N/A' }}</p>
                         @endif
                     </div>
                 </div>
-                
+
                 <!-- Lineup Field -->
-                <div class="relative bg-green-600 rounded-2xl p-6 mb-6" style="min-height: 500px;">
+                <div class="relative bg-success rounded-2xl p-6 mb-6" style="min-height: 500px;">
                     <!-- Football Field Lines -->
                     <div class="absolute inset-0 rounded-2xl border-4 border-white opacity-30">
                         <!-- Center circle -->
@@ -277,7 +276,7 @@
                         <div class="absolute top-0 right-0 w-1/4 h-1/3 border-2 border-white border-t-0 border-r-0"></div>
                         <div class="absolute bottom-0 right-0 w-1/4 h-1/3 border-2 border-white border-b-0 border-r-0"></div>
                     </div>
-                    
+
                     <!-- Players Layout -->
                     <div class="relative z-10 flex justify-between h-full">
                         <!-- Away Team (Left Side) -->
@@ -291,14 +290,14 @@
                                     $awayMidfielders = $awayPlayers->filter(fn($lp) => $lp->player->position === 'MID');
                                     $awayForwards = $awayPlayers->filter(fn($lp) => $lp->player->position === 'FWD');
                                 @endphp
-                                
+
                                 <!-- Away Formation Players - Horizontal by Position -->
                                 <div class="flex flex-col justify-between h-full">
                                     <!-- Away Goalkeeper -->
                                     <div class="flex justify-start mt-4">
                                         @foreach($awayGoalkeepers as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-green-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-success rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -306,12 +305,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Away Defenders -->
                                     <div class="flex justify-center my-2">
                                         @foreach($awayDefenders as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-warning rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -319,12 +318,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Away Midfielders -->
                                     <div class="flex justify-center my-2">
                                         @foreach($awayMidfielders as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-primary rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -332,12 +331,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Away Forwards -->
                                     <div class="flex justify-center mb-4">
                                         @foreach($awayForwards as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-red-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-error rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -352,7 +351,7 @@
                                 </div>
                             @endif
                         </div>
-                        
+
                         <!-- Home Team (Right Side) -->
                         <div class="w-1/2 pl-4">
                             @if(isset($homeLineup) && $homeLineup)
@@ -364,14 +363,14 @@
                                     $homeMidfielders = $homePlayers->filter(fn($lp) => $lp->player->position === 'MID');
                                     $homeForwards = $homePlayers->filter(fn($lp) => $lp->player->position === 'FWD');
                                 @endphp
-                                
+
                                 <!-- Home Formation Players - Horizontal by Position -->
                                 <div class="flex flex-col justify-between h-full">
                                     <!-- Home Goalkeeper -->
                                     <div class="flex justify-end mt-4">
                                         @foreach($homeGoalkeepers as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-green-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-success rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -379,12 +378,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Home Defenders -->
                                     <div class="flex justify-center my-2">
                                         @foreach($homeDefenders as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-warning rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -392,12 +391,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Home Midfielders -->
                                     <div class="flex justify-center my-2">
                                         @foreach($homeMidfielders as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-primary rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -405,12 +404,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <!-- Home Forwards -->
                                     <div class="flex justify-center mb-4">
                                         @foreach($homeForwards as $lineupPlayer)
                                             <div class="text-center mx-2">
-                                                <div class="bg-red-500 rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
+                                                <div class="bg-error rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 border-white text-white">
                                                     {{ $lineupPlayer->player->shirt_number }}
                                                 </div>
                                                 <p class="text-xs mt-1 text-white">{{ substr($lineupPlayer->player->last_name, 0, 8) }}</p>
@@ -427,44 +426,44 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Bench Players -->
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <!-- Away Team Bench -->
                     <div>
-                        <h4 class="mb-3 text-lg font-bold">Away Team Bench</h4>
+                        <h4 class="mb-3 text-lg font-bold text-base-content">Away Team Bench</h4>
                         @if(isset($awayLineup) && $awayLineup && $awayLineup->benchPlayerDetails->count() > 0)
                             <div class="grid grid-cols-5 gap-2">
                                 @foreach($awayLineup->benchPlayerDetails->take(10) as $lineupPlayer)
                                     <div class="text-center">
-                                        <div class="bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
+                                        <div class="bg-base-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
                                             {{ $lineupPlayer->player->shirt_number }}
                                         </div>
-                                        <p class="text-xs mt-1">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
+                                        <p class="text-xs mt-1 text-base-content">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
                                     </div>
                                 @endforeach
                             </div>
                         @else
-                            <p class="text-gray-500 dark:text-gray-400">No bench players available</p>
+                            <p class="text-base-content/70">No bench players available</p>
                         @endif
                     </div>
-                    
+
                     <!-- Home Team Bench -->
                     <div>
-                        <h4 class="mb-3 text-lg font-bold">Home Team Bench</h4>
+                        <h4 class="mb-3 text-lg font-bold text-base-content">Home Team Bench</h4>
                         @if(isset($homeLineup) && $homeLineup && $homeLineup->benchPlayerDetails->count() > 0)
                             <div class="grid grid-cols-5 gap-2">
                                 @foreach($homeLineup->benchPlayerDetails->take(10) as $lineupPlayer)
                                     <div class="text-center">
-                                        <div class="bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
+                                        <div class="bg-base-300 rounded-full w-10 h-10 flex items-center justify-center font-bold text-xs border border-white">
                                             {{ $lineupPlayer->player->shirt_number }}
                                         </div>
-                                        <p class="text-xs mt-1">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
+                                        <p class="text-xs mt-1 text-base-content">{{ substr($lineupPlayer->player->last_name, 0, 6) }}</p>
                                     </div>
                                 @endforeach
                             </div>
                         @else
-                            <p class="text-gray-500 dark:text-gray-400">No bench players available</p>
+                            <p class="text-base-content/70">No bench players available</p>
                         @endif
                     </div>
                 </div>
