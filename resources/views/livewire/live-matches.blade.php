@@ -1,5 +1,5 @@
-<div class="bg-base-100 min-h-screen p-4" data-theme="dark">
-    <h2 class="text-2xl font-bold mb-4">Live Matches</h2>
+<div class="min-h-screen p-4 bg-base-200">
+    <h2 class="text-2xl font-bold mb-4 text-base-content">Live Matches</h2>
 
     @if($liveMatches->isEmpty())
         <div class="alert alert-info">
@@ -9,10 +9,10 @@
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($liveMatches as $match)
-                <div class="card bg-base-200 ">
+                <div class="card bg-base-100 shadow">
                     <div class="card-body p-4">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-primary font-semibold">{{ $match->league->name }}</span>
+                            <span class="text-sm font-semibold text-primary">{{ $match->league->name }}</span>
                             <span class="badge badge-error badge-sm">LIVE</span>
                         </div>
 
@@ -24,12 +24,12 @@
                                             <img src="{{ asset('storage/'.$match->homeTeam->logo_path) }}" alt="{{ $match->homeTeam->name }}" />
                                         @else
                                             <div class="bg-base-300 w-full h-full flex items-center justify-center">
-                                                <span class="text-xs">{{ substr($match->homeTeam->name, 0, 3) }}</span>
+                                                <span class="text-xs text-base-content">{{ substr($match->homeTeam->name, 0, 3) }}</span>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
-                                <span class="font-medium text-center text-sm">{{ $match->homeTeam->name }}</span>
+                                <span class="font-medium text-center text-sm text-base-content">{{ $match->homeTeam->name }}</span>
                             </div>
                             <div class="text-center w-1/3">
                                 <span class="text-3xl font-bold text-error">{{ $match->home_score ?? 0 }} - {{ $match->away_score ?? 0 }}</span>
@@ -42,12 +42,12 @@
                                             <img src="{{ asset('storage/'.$match->awayTeam->logo_path) }}" alt="{{ $match->awayTeam->name }}" />
                                         @else
                                             <div class="bg-base-300 w-full h-full flex items-center justify-center">
-                                                <span class="text-xs">{{ substr($match->awayTeam->name, 0, 3) }}</span>
+                                                <span class="text-xs text-base-content">{{ substr($match->awayTeam->name, 0, 3) }}</span>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
-                                <span class="font-medium text-center text-sm">{{ $match->awayTeam->name }}</span>
+                                <span class="font-medium text-center text-sm text-base-content">{{ $match->awayTeam->name }}</span>
                             </div>
                         </div>
 

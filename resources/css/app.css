@@ -1,46 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
-@import "@fontsource-variable/josefin-sans";
-@import "./lineups.css";
-
-@source "../**/*.blade.php";
-@source "../**/*.js";
-@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
-@source "../../storage/framework/views/*.php";
-
-@plugin "daisyui" ;
-
-@plugin "daisyui/theme" {
-    name: "cyberpunk";
-    default: true;
-    prefersdark: true;
-    color-scheme: "dark";
-    --color-base-100: oklch(1.0000 0.0000 89.88);
-    --color-base-200: oklch(96% 0.007 247.896);
-    --color-base-300: oklch(92% 0.013 255.508);
-    --color-base-content: oklch(0.0000 0.0000 0.0);
-    --color-primary: #3b82f6;
-    --color-primary-content: #ffffff;
-    --color-secondary: #f3f4f6;
-    --color-secondary-content: #4b5563;
-    --color-accent: #e0f2fe;
-    --color-accent-content:#1e3a8a;
-    --color-neutral: #ffffff;
-    --color-neutral-content:#333333;
-    --color-info: oklch(0.7080 0.1489 234.36);
-    --color-info-content:#ffffff;
-    --color-success: oklch(0.5868 0.1712 147.69);
-    --color-success-content: #ffffff;
-    --color-warning: oklch(0.8750 0.1791 92.68);
-    --color-warning-content: #ffffff;
-    --color-error: #ef4444;
-    --color-error-content:#ffffff;
-    --radius-selector: 2rem;
-    --radius-field: 0rem;
-    --radius-box: 0.25rem;
-    --size-selector: 0.25rem;
-    --size-field: 0.25rem;
-    --border: 1px;
-    --depth: 0;
-    --noise: 0;
-  }
-
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+/* @import "@fontsource-variable/josefin-sans"; */
+@theme {
+  --font-josfin-sans:  "Josefin Sans", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
